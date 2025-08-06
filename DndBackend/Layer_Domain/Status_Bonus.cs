@@ -2,10 +2,11 @@ namespace Layer_Domain.Entities
 {
     public class StatusBonus
     {
+        public int StatusBonusId { get; private set; }  // <-- PK
         public int BonusStatusId { get; private set; }
         public int CharacterId { get; private set; }
 
-        public string SourceType { get; private set; } = null!; // equipment, buff, debuff, etc.
+        public string SourceType { get; private set; } = null!;
         public string SourceId { get; private set; } = null!;
 
         public int StrBonus { get; private set; }

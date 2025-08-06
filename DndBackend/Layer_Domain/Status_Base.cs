@@ -12,6 +12,7 @@ namespace Layer_Domain.Entities
         public int Con { get; private set; }
         public int Cha { get; private set; }
 
+        //เพิ่ม bonus จาก race และ class หน่อย
         public Character Character { get; private set; } = null!;
     }
 }
