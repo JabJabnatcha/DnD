@@ -1,20 +1,35 @@
 <template>
-  <div class="card-container">
-    <div class="card" v-for="(card, index) in cards" :key="index">
-      <img :src="card.image" alt="Card Image" class="card-image" />
-      <h2>{{ card.title }}</h2>
-      <p>{{ card.subtitle }}</p>
-    </div>
+  <div><topbar /></div>
+  
+    <div class="layout">
 
-    <div class="button-group">
-      <button @click="rotateLeft">⬅️</button>
-      <button @click="rotateRight">➡️</button>
-    </div>
+      <div class="card">
+        <img :src="cards[0].image" alt="Card 1" class="card-image" />
+        <h2>{{ cards[0].title }}</h2>
+        <p>{{ cards[0].subtitle }}</p>
+      </div>
+
+    <button @click="rotateLeft" class="nav-button">⬅️</button>
+
+      <div class="card-center">
+        <img :src="cards[1].image" alt="Card 2" class="card-image" />
+        <h2>{{ cards[1].title }}</h2>
+        <p>{{ cards[1].subtitle }}</p>
+      </div>
+
+    <button @click="rotateRight" class="nav-button">➡️</button>
+
+      <div class="card">
+        <img :src="cards[2].image" alt="Card 3" class="card-image" />
+        <h2>{{ cards[2].title }}</h2>
+        <p>{{ cards[2].subtitle }}</p>
+      </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import Topbar from '../components/topbar.vue';
 
 const cards = ref([
   {
@@ -60,7 +75,13 @@ function rotateRight() {
 }
 
 .card {
-  width: 300px;
+  width: 500px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 16px;
+}
+.card-center {
+  width: 1100px;
   margin: 20px;
   border: 1px solid #ccc;
   padding: 16px;
