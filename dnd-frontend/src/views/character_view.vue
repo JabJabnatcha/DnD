@@ -1,13 +1,13 @@
 <template>
-  <TopBar />
-  <CharacterTable :characters="characters" />
-  <CharacterForm @create="addCharacter" />
+  <topbar />
+  <character-table :characters="characters" />
+  <character-form @create="addCharacter" />
 </template>
 
 <script setup>
-import TopBar from '@/components/TopBar.vue';
-import CharacterTable from '@/components/CharacterTable.vue';
-import CharacterForm from '@/components/CharacterForm.vue';
+import topbar from '@/components/topbar.vue';
+import characterTable from '@/components/character_table.vue';
+import characterForm from '@/components/character_form.vue';
 import { ref } from 'vue';
 
 const characters = ref([

@@ -1,7 +1,7 @@
+<!-- src/App.vue -->
 <template>
-  <CharacterView />
+  <router-view />
 </template>
 
 <script setup>
-import CharacterView from './views/CharacterView.vue';
 </script>
