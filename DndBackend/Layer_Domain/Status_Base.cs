@@ -12,7 +12,20 @@ namespace Layer_Domain.Entities
         public int Con { get; private set; }
         public int Cha { get; private set; }
 
-        //เพิ่ม bonus จาก race และ class หน่อย
         public Character Character { get; private set; } = null!;
+
+        // Constructor สำหรับสร้างใหม่
+        public StatusBase(int str, int agi, int intel, int wis, int con, int cha)
+        {
+            Str = str;
+            Agi = agi;
+            Int = intel;
+            Wis = wis;
+            Con = con;
+            Cha = cha;
+        }
+
+        // Parameterless constructor สำหรับ EF Core
+        private StatusBase() { }
     }
 }

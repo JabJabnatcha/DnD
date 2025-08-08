@@ -2,13 +2,6 @@ namespace Layer_Domain.Entities
 {
     public class StatusBonus
     {
-        public int StatusBonusId { get; private set; }  // <-- PK
-        public int BonusStatusId { get; private set; }
-        public int CharacterId { get; private set; }
-
-        public string SourceType { get; private set; } = null!;
-        public string SourceId { get; private set; } = null!;
-
         public int StrBonus { get; private set; }
         public int AgiBonus { get; private set; }
         public int IntBonus { get; private set; }
@@ -16,16 +9,15 @@ namespace Layer_Domain.Entities
         public int ConBonus { get; private set; }
         public int ChaBonus { get; private set; }
 
-        public Character Character { get; private set; } = null!;
-
-        private StatusBonus() { }
-
-        public StatusBonus(int characterId, string sourceType, string sourceId,
-            int strBonus, int agiBonus, int intBonus, int wisBonus, int conBonus, int chaBonus)
+        // ✅ Constructor พร้อมค่า default = 0
+        public StatusBonus(
+            int strBonus = 0,
+            int agiBonus = 0,
+            int intBonus = 0,
+            int wisBonus = 0,
+            int conBonus = 0,
+            int chaBonus = 0)
         {
-            CharacterId = characterId;
-            SourceType = sourceType;
-            SourceId = sourceId;
             StrBonus = strBonus;
             AgiBonus = agiBonus;
             IntBonus = intBonus;
