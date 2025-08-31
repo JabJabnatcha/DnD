@@ -1,33 +1,84 @@
-using Microsoft.EntityFrameworkCore;
 using Layer_Domain.Entities;
+using Layer_Domain.Entities.Class;
+using Layer_Domain.Entities.Race;
+using Layer_Domain.Entities.Items;
+using Layer_Domain.Entities.Spells;
+using Microsoft.EntityFrameworkCore;
 
-namespace Layer_Infrastructure
+namespace Layer_Infrastructure.Data
 {
-    public class DndDbDbContext : DbContext
+    public class DndDbContext : DbContext
     {
-        // กำหนด DbSet สำหรับแต่ละ Entity
-        public DbSet<Character> Characters { get; set; } = null!;
-        public DbSet<Race> Races { get; set; } = null!;
-        public DbSet<SubRace> SubRaces { get; set; } = null!;
-        public DbSet<Traits> Traits { get; set; } = null!;
-        public DbSet<Class> Classes { get; set; } = null!;
-        public DbSet<Alignment> Alignments { get; set; } = null!;
+        public DndDbContext(DbContextOptions<DndDbContext> options) : base(options) { }
 
-        // กำหนดการเชื่อมต่อ DB
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                // ✅ เปลี่ยน connection string ตาม DB ของคุณ
-                optionsBuilder.UseSqlServer("Server=localhost;Database=RPG_DB;Trusted_Connection=True;TrustServerCertificate=True;");
-            }
-        }
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<RaceCharacter> Races { get; set; }
+        public DbSet<Subrace> Subraces { get; set; }
+        public DbSet<ClassChatacter> Classes { get; set; }
+        public DbSet<Subclass> Subclasses { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Spell> Spells { get; set; }
+        public DbSet<Feature> Features { get; set; }
+        public DbSet<Skill> Skills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // สามารถใส่ Fluent API กำหนดความสัมพันธ์พิเศษที่ EF Core เดาไม่ได้
+            // TPH สำหรับ Item inheritance
+            modelBuilder.Entity<Item>()
+                        .HasDiscriminator(i => i.ItemCategory)
+                        .HasValue<Weapon>(ItemCategory.Weapon)
+                        .HasValue<Armor>(ItemCategory.Armor)
+                        .HasValue<Consumable>(ItemCategory.Consumable)
+                        .HasValue<Tool>(ItemCategory.Tool)
+                        .HasValue<Equipment>(ItemCategory.Other);
+
+            // Character -> Race/Subrace
+            modelBuilder.Entity<Character>()
+                .HasOne(c => c.Race)
+                .WithMany()
+                .HasForeignKey(c => c.RaceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Character>()
+                .HasOne(c => c.Subrace)
+                .WithMany()
+                .HasForeignKey(c => c.SubraceId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Character -> Class/Subclass
+            modelBuilder.Entity<Character>()
+                .HasOne(c => c.Class)
+                .WithMany()
+                .HasForeignKey(c => c.ClassId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Character>()
+                .HasOne(c => c.Subclass)
+                .WithMany()
+                .HasForeignKey(c => c.SubclassId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Character -> Items
+            modelBuilder.Entity<Character>()
+                .HasMany(c => c.Items)
+                .WithMany();
+
+            // Character -> Spells
+            modelBuilder.Entity<Character>()
+                .HasMany(c => c.Spells)
+                .WithMany();
+
+            // Character -> Features
+            modelBuilder.Entity<Character>()
+                .HasMany(c => c.Features)
+                .WithMany();
+
+            // Character -> Skills
+            modelBuilder.Entity<Character>()
+                .HasMany(c => c.Skills)
+                .WithMany();
         }
     }
 }

@@ -1,15 +1,17 @@
 
 using Layer_Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Layer_Infrastructure.Data;
 using Layer_Domain.Entities;          
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 // ✅ Add DbContext
-builder.Services.AddDbContext<DndDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
 
 // ✅ Add Controllers
 builder.Services.AddControllers()
