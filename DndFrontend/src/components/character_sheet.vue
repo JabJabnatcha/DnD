@@ -1,28 +1,5 @@
 <template>
-  <table class="character-table">
-    <thead>
-      <tr>
-        <th>Player</th>
-        <th>Name</th>
-        <th>Race</th>
-        <th>Class</th>
-        <th>Level</th>
-        <th>Alignment</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="char in characters" :key="char.id">
-        <td>{{ char.player }}</td>
-        <td>{{ char.name }}</td>
-        <td>{{ char.race }}</td>
-        <td>{{ char.class }}</td>
-        <td>{{ char.level }}</td>
-        <td>{{ char.alignment }}</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+    <div>
         <v-row>
             <v-col>
                 <h1>Character Name</h1> <!-- String No Script -->
@@ -54,20 +31,13 @@
             </v-row>
         </v-col>
         </v-row>
+    </div>
 </template>
 
-<script setup>
-defineProps(['characters']);
+<script>
+import { h } from 'vue';
+
 </script>
 
-<style scoped>
-.character-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-.character-table th, .character-table td {
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-}
+<style>
 </style>

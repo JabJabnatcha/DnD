@@ -3,10 +3,10 @@
   <header class="top-bar">
     <nav>
       <router-link class="nav-btn" to="/">Home</router-link>
-      <router-link class="nav-btn" to="/characters">Characters</router-link>
       <router-link class="nav-btn" to="/races">Races</router-link>
       <router-link class="nav-btn" to="/classes">Classes</router-link>
       <router-link class="nav-btn" to="/alignments">Alignments</router-link>
+      <router-link class="nav-btn" to="/characters">Characters</router-link>
     </nav>
   </header>
 </template>

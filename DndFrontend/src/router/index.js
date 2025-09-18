@@ -8,10 +8,10 @@ import AlignmentView from '../views/alignment_view.vue'
 
 const routes = [
   { path: '/', name: 'Main', component: MainView },
-  { path: '/characters', name: 'Characters', component: CharacterView },
   { path: '/races', name: 'Races', component: RaceView },
   { path: '/classes', name: 'Classes', component: ClassView },
   { path: '/alignments', name: 'Alignments', component: AlignmentView },
+  { path: '/characters', name: 'Characters', component: CharacterView },
 ]
 
 const router = createRouter({
