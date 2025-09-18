@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using Layer_Domain.Entities.Race;
+using Layer_Domain.Entities.Class;
+using Layer_Domain.Entities.Items; 
+using Layer_Domain.Entities.Spells;
 using System.ComponentModel.DataAnnotations;
 
 namespace Layer_Domain.Entities

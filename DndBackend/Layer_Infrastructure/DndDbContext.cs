@@ -67,18 +67,48 @@ namespace Layer_Infrastructure.Data
 
             // Character -> Spells
             modelBuilder.Entity<Character>()
-                .HasMany(c => c.Spells)
+                .HasMany(c => c.SpellsCharacter)
                 .WithMany();
+
+            // Class <-> Spell
+            modelBuilder.Entity<SpellClass>()
+                .HasKey(cs => new { cs.ClassId, cs.SpellId });
+
+            modelBuilder.Entity<SpellClass>()
+                .HasOne(cs => cs.Class)
+                .WithMany(c => c.SpellsClass)
+                .HasForeignKey(cs => cs.ClassId);
+
+            modelBuilder.Entity<SpellClass>()
+                .HasOne(cs => cs.Spell)
+                .WithMany(s => s.SpellsClass)
+                .HasForeignKey(cs => cs.SpellId);
+
+            // Character <-> Spell
+            modelBuilder.Entity<SpellCharacter>()
+                .HasKey(cs => new { cs.CharId, cs.SpellId });
+
+            modelBuilder.Entity<SpellCharacter>()
+                .HasOne(cs => cs.Character)
+                .WithMany(c => c.SpellsCharacter)
+                .HasForeignKey(cs => cs.CharId);
+
+            modelBuilder.Entity<SpellCharacter>()
+                .HasOne(cs => cs.Spell)
+                .WithMany(s => s.SpellsCharacter)
+                .HasForeignKey(cs => cs.SpellId);
 
             // Character -> Features
             modelBuilder.Entity<Character>()
                 .HasMany(c => c.Features)
                 .WithMany();
 
-            // Character -> Skills
+            // Character -> Skills (One-to-Many)
             modelBuilder.Entity<Character>()
-                .HasMany(c => c.Skills)
-                .WithMany();
+            .HasMany(c => c.Skills)
+            .WithOne(s => s.Character)
+            .HasForeignKey(s => s.CharId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -1,9 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Layer_Domain.Entities.Spells
 {
     public class Spell
     {
         public int SpellId { get; set; }
-        
+
         public required string SpellName { get; set; }
         public required string SpellDescription { get; set; }
         public int Level { get; set; }
@@ -24,6 +26,10 @@ namespace Layer_Domain.Entities.Spells
         public bool IsConcentration { get; set; } = false;
         public bool RequiresSavingThrow { get; set; } = false;
         public string? SavingThrowAbility { get; set; } // e.g., "Dex", "Wis"
-        public string? Effect { get; set; }             // e.g., "Stunned", "Knocked prone"
+        public string? Effect { get; set; }  
+        
+         // Navigation junction tables
+    public List<SpellClass> SpellsClass { get; set; } = new();
+    public List<SpellCharacter> SpellsCharacter { get; set; } = new();           // e.g., "Stunned", "Knocked prone"
     }
 }

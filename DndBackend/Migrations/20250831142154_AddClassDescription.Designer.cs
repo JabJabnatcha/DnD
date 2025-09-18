@@ -3,6 +3,7 @@ using Layer_Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DndBackend.Migrations
 {
     [DbContext(typeof(DndDbContext))]
-    partial class DndDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250831142154_AddClassDescription")]
+    partial class AddClassDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,6 +52,21 @@ namespace DndBackend.Migrations
                     b.HasIndex("ItemsItemId");
 
                     b.ToTable("CharacterItem");
+                });
+
+            modelBuilder.Entity("CharacterSkill", b =>
+                {
+                    b.Property<int>("CharacterCharId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillsSkill_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("CharacterCharId", "SkillsSkill_Id");
+
+                    b.HasIndex("SkillsSkill_Id");
+
+                    b.ToTable("CharacterSkill");
                 });
 
             modelBuilder.Entity("CharacterSpell", b =>
@@ -377,126 +395,21 @@ namespace DndBackend.Migrations
 
             modelBuilder.Entity("Layer_Domain.Entities.Skill", b =>
                 {
-                    b.Property<int>("SkillId")
+                    b.Property<int>("Skill_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SkillId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Skill_Id"));
 
-                    b.Property<int>("Acrobatics")
-                        .HasColumnType("int");
+                    b.Property<string>("Ability")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("AcrobaticsProficient")
-                        .HasColumnType("bit");
+                    b.Property<string>("SkillName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AnimalHandling")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("AnimalHandlingProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Arcana")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("ArcanaProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Athletics")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("AthleticsProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CharId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Deception")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("DeceptionProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("History")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("HistoryProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Insight")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("InsightProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Intimidation")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IntimidationProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Investigation")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("InvestigationProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Medicine")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("MedicineProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Nature")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("NatureProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Perception")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("PerceptionProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Performance")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("PerformanceProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Persuasion")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("PersuasionProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Religion")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("ReligionProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SleightOfHand")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("SleightOfHandProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Stealth")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("StealthProficient")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Survival")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("SurvivalProficient")
-                        .HasColumnType("bit");
-
-                    b.HasKey("SkillId");
-
-                    b.HasIndex("CharId");
+                    b.HasKey("Skill_Id");
 
                     b.ToTable("Skills");
                 });
@@ -692,6 +605,21 @@ namespace DndBackend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CharacterSkill", b =>
+                {
+                    b.HasOne("Layer_Domain.Entities.Character", null)
+                        .WithMany()
+                        .HasForeignKey("CharacterCharId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Layer_Domain.Entities.Skill", null)
+                        .WithMany()
+                        .HasForeignKey("SkillsSkill_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CharacterSpell", b =>
                 {
                     b.HasOne("Layer_Domain.Entities.Character", null)
@@ -779,22 +707,6 @@ namespace DndBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("Race");
-                });
-
-            modelBuilder.Entity("Layer_Domain.Entities.Skill", b =>
-                {
-                    b.HasOne("Layer_Domain.Entities.Character", "Character")
-                        .WithMany("Skills")
-                        .HasForeignKey("CharId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Character");
-                });
-
-            modelBuilder.Entity("Layer_Domain.Entities.Character", b =>
-                {
-                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("Layer_Domain.Entities.Class.ClassChatacter", b =>

@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Layer_Domain.Entities;
 using Layer_Domain.Entities.Race;
 using Layer_Domain.Entities.Class;
-using Layer_Domain.Entities.Items; 
+using Layer_Domain.Entities.Items;
 using Layer_Domain.Entities.Spells;
 using System.ComponentModel.DataAnnotations;
 
@@ -52,6 +51,9 @@ namespace Layer_Domain.Entities
         public List<Feature> Features { get; set; } = new();
         public List<Skill> Skills { get; set; } = new();
         public List<Item> Items { get; set; } = new();
-        public List<Spell> Spells { get; set; } = new();
+
+        // Junction tables
+        public List<SpellCharacter> SpellsCharacter { get; set; } = new();
+
     }
 }
