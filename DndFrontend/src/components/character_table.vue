@@ -1,73 +1,70 @@
+<!-- src/components/character_table.vue -->
 <template>
-  <table class="character-table">
-    <thead>
-      <tr>
-        <th>Player</th>
-        <th>Name</th>
-        <th>Race</th>
-        <th>Class</th>
-        <th>Level</th>
-        <th>Alignment</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="char in characters" :key="char.id">
-        <td>{{ char.player }}</td>
-        <td>{{ char.name }}</td>
-        <td>{{ char.race }}</td>
-        <td>{{ char.class }}</td>
-        <td>{{ char.level }}</td>
-        <td>{{ char.alignment }}</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-        <v-row>
-            <v-col>
-                <h1>Character Name</h1> <!-- String No Script -->
-            </v-col>
-            <v-col>
-                <v-row>
-                    <h2>Class & Level</h2> <!-- FK from Class -->
-                    <h3>Subclass</h3> <!-- FK from Subclass -->
-                </v-row>
-                <v-row>
-                    <h2>Race</h2> <!-- FK from Race -->
-                    <h3>Subrace</h3> <!-- FK from Subrace -->
-                </v-row>
-            </v-col>
-            <v-col>
-                <v-row>
-                    <h2>Background</h2> <!-- FK from Background -->
-                </v-row>
-                <v-row>
-                    <h2>Alignment</h2> <!-- FK from Alignment -->
-                </v-row>
-            </v-col>
-            <v-col>
-            <v-row>
-                <h1>Player Name</h1> <!-- String No Script -->
-            </v-row>
-            <v-row>
-                <h2>EXP</h2> <!-- EXP Current / Next Level -->
-            </v-row>
-        </v-col>
-        </v-row>
+  <v-data-table
+    :headers="headers"
+    :items="characters"
+    item-value="id"
+    class="elevation-1 with-borders"
+    dense
+    :items-per-page="5"
+  >
+    <template #item.actions="{ item }">
+      <v-btn small color="primary" @click.stop="goToSheet(item.id)">See More</v-btn>
+      <v-btn small color="warning" @click.stop="editCharacter(item.id)">Edit</v-btn>
+      <v-btn small color="error" @click.stop="deleteCharacter(item.id)">Delete</v-btn>
+    </template>
+  </v-data-table>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 defineProps(['characters']);
+
+const headers = [
+  { title: 'Player', value: 'player' },
+  { title: 'Name', value: 'name' },
+  { title: 'Race', value: 'race' },
+  { title: 'Class', value: 'class' },
+  { title: 'Level', value: 'level' },
+  { title: 'Alignment', value: 'alignment' },
+  { title: 'Actions', value: 'actions', sortable: false },
+];
+
+const goToSheet = (id) => {
+  router.push(`/character_sheet/${id}`);
+};
+
+const editCharacter = (id) => {
+  console.log('Edit', id);
+};
+
+const deleteCharacter = (id) => {
+  console.log('Delete', id);
+};
 </script>
 
 <style scoped>
-.character-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
+.with-borders {
+  width: 80%;
+  margin: 2rem auto;
+  border: 1px solid var(--v-border-color);
 }
-.character-table th, .character-table td {
-  border: 1px solid #ccc;
-  padding: 0.5rem;
+
+/* กำหนดเส้นของ cell */
+.with-borders .v-data-table__td,
+.with-borders .v-data-table__th {
+  border-left: 1px solid var(--v-border-color);
+  border-right: 1px solid var(--v-border-color);
+  text-align: center; /* จัดกึ่งกลางข้อความ */
+}
+
+/* สไตล์หัวตาราง */
+.with-borders .v-data-table__th {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  text-align: center;
 }
 </style>

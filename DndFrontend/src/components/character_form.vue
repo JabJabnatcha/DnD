@@ -1,16 +1,39 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="character-form">
-    <input v-model="form.name" placeholder="Name" required />
-    <input v-model="form.race" placeholder="Race" required />
-    <input v-model="form.class" placeholder="Class" required />
-    <input v-model="form.alignment" placeholder="Alignment" required />
-    <button type="submit">Create</button>
-  </form>
+  <div>
+    <!-- ปุ่มเปิด modal -->
+    <v-btn color="primary" @click="dialog = true">Add Character</v-btn>
+
+    <!-- Modal -->
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="text-h6">Create Character</span>
+        </v-card-title>
+
+        <v-card-text>
+          <v-form @submit.prevent="handleSubmit" ref="formRef">
+            <v-text-field v-model="form.name" label="Name" required></v-text-field>
+            <v-text-field v-model="form.race" label="Race" required></v-text-field>
+            <v-text-field v-model="form.class" label="Class" required></v-text-field>
+            <v-text-field v-model="form.alignment" label="Alignment" required></v-text-field>
+          </v-form>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text color="red" @click="dialog = false">Cancel</v-btn>
+          <v-btn color="primary" @click="handleSubmit">Create</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 const emit = defineEmits(['create']);
+
+const dialog = ref(false);
 const form = reactive({
   name: '',
   race: '',
@@ -18,22 +41,22 @@ const form = reactive({
   alignment: ''
 });
 
+const formRef = ref(null);
+
 function handleSubmit() {
+  if (!form.name || !form.race || !form.class || !form.alignment) return;
+
   emit('create', { ...form });
+
+  // reset form
   form.name = '';
   form.race = '';
   form.class = '';
   form.alignment = '';
+
+  dialog.value = false;
 }
 </script>
 
 <style scoped>
-.character-form {
-  margin-top: 2rem;
-  display: flex;
-  gap: 1rem;
-}
-.character-form input {
-  padding: 0.5rem;
-}
 </style>

@@ -1,20 +1,37 @@
+<!-- src/views/character_view.vue -->
 <template>
-  <topbar />
-  <character-table :characters="characters" />
-  <character-form @create="addCharacter" />
+  <div class="character-page">
+    <topbar />
+
+    
+      <character-table :characters="characters" />
+    
+  </div>
 </template>
 
 <script setup>
-import topbar from '@/components/topbar.vue';
-import characterTable from '@/components/character_table.vue';
-import characterForm from '@/components/character_form.vue';
 import { ref } from 'vue';
+import Topbar from '../components/topbar.vue';
+import CharacterTable from '../components/character_table.vue';
 
 const characters = ref([
-  { id: 1, name: 'Aria', race: 'Elf', class: 'Wizard', alignment: 'Good' }
+  { id: 1, player: 'Alice', name: 'Aria', race: 'Elf', class: 'Wizard', level: 3, alignment: 'Good' },
+  { id: 2, player: 'Bob', name: 'Borin', race: 'Dwarf', class: 'Fighter', level: 2, alignment: 'Neutral' },
+  { id: 3, player: 'Charlie', name: 'Cora', race: 'Human', class: 'Cleric', level: 4, alignment: 'Lawful' }
 ]);
-
-function addCharacter(newChar) {
-  characters.value.push({ ...newChar, id: Date.now() });
-}
 </script>
+
+<style scoped>
+.character-page {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-container {
+  flex: 1;
+  padding: 1rem 2rem;
+  width: 100%;
+}
+</style>

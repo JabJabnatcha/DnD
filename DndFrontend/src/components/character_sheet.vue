@@ -1,43 +1,54 @@
+<!-- character_sheet.vue -->
 <template>
-    <div>
-        <v-row>
-            <v-col>
-                <h1>Character Name</h1> <!-- String No Script -->
-            </v-col>
-            <v-col>
-                <v-row>
-                    <h2>Class & Level</h2> <!-- FK from Class -->
-                    <h3>Subclass</h3> <!-- FK from Subclass -->
-                </v-row>
-                <v-row>
-                    <h2>Race</h2> <!-- FK from Race -->
-                    <h3>Subrace</h3> <!-- FK from Subrace -->
-                </v-row>
-            </v-col>
-            <v-col>
-                <v-row>
-                    <h2>Background</h2> <!-- FK from Background -->
-                </v-row>
-                <v-row>
-                    <h2>Alignment</h2> <!-- FK from Alignment -->
-                </v-row>
-            </v-col>
-            <v-col>
-            <v-row>
-                <h1>Player Name</h1> <!-- String No Script -->
-            </v-row>
-            <v-row>
-                <h2>EXP</h2> <!-- EXP Current / Next Level -->
-            </v-row>
-        </v-col>
-        </v-row>
-    </div>
+  <v-container class="pa-4" v-if="character">
+    <v-row dense>
+      <v-col cols="12" md="3">
+        <v-card outlined class="pa-4">
+          <v-card-title>{{ character.name }}</v-card-title>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="3">
+        <v-card outlined class="pa-4">
+          <v-card-text>
+            <h3>Class & Level</h3>
+            <p>{{ character.class }} Lv.{{ character.level }}</p>
+            <p>{{ character.subclass }}</p>
+            <v-divider class="my-2"></v-divider>
+            <h3>Race</h3>
+            <p>{{ character.race }}</p>
+            <p>{{ character.subrace || '-' }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="3">
+        <v-card outlined class="pa-4">
+          <v-card-text>
+            <h3>Background</h3>
+            <p>{{ character.background }}</p>
+            <v-divider class="my-2"></v-divider>
+            <h3>Alignment</h3>
+            <p>{{ character.alignment }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="3">
+        <v-card outlined class="pa-4">
+          <v-card-text>
+            <h3>Player</h3>
+            <p>{{ character.player }}</p>
+            <v-divider class="my-2"></v-divider>
+            <h3>EXP</h3>
+            <p>{{ character.exp }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<script>
-import { h } from 'vue';
-
+<script setup>
+defineProps(['character']);
 </script>
-
-<style>
-</style>
