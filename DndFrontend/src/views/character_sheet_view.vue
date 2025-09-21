@@ -11,21 +11,11 @@
         <!-- Row 1: Character Cards -->
         <v-row class="row1" key="character.id">
           <v-col cols="12">
-            <v-card
-              height="150px"
-              class="pa-4 character-card"
-              color="light-blue lighten-4"
-              outlined
-            >
+            <v-card height="150px" class="pa-4 character-card" color="light-blue lighten-4" outlined>
               <v-row no-gutters>
                 <!-- 1. รูป -->
                 <v-col cols="12" sm="2" class="character-img">
-                  <v-img
-                    :src="character.image"
-                    alt="Character Picture"
-                    max-width="120"
-                    max-height="120"
-                  ></v-img>
+                  <v-img :src="character.image" alt="Character Picture" max-width="120" max-height="120"></v-img>
                 </v-col>
 
                 <!-- 2. Character Name + Player -->
@@ -57,57 +47,69 @@
               <v-card class="ability-card strength" outlined>
                 <strong>Strength</strong>
                 <div class="score">{{ abilitiesWithMod[0].score }}</div>
-                <div class="modifier">Modifier: {{ abilitiesWithMod[0].mod }}</div>
+                <div class="modifier">
+                  Modifier: {{ abilitiesWithMod[0].mod }}
+                </div>
               </v-card>
               <v-card class="ability-card dexterity" outlined>
                 <strong>Dexterity</strong>
                 <div class="score">{{ abilitiesWithMod[1].score }}</div>
-                <div class="modifier">Modifier: {{ abilitiesWithMod[1].mod }}</div>
+                <div class="modifier">
+                  Modifier: {{ abilitiesWithMod[1].mod }}
+                </div>
               </v-card>
               <v-card class="ability-card constitution" outlined>
                 <strong>Constitution</strong>
                 <div class="score">{{ abilitiesWithMod[2].score }}</div>
-                <div class="modifier">Modifier: {{ abilitiesWithMod[2].mod }}</div>
+                <div class="modifier">
+                  Modifier: {{ abilitiesWithMod[2].mod }}
+                </div>
               </v-card>
               <v-card class="ability-card intelligence" outlined>
                 <strong>Intelligence</strong>
                 <div class="score">{{ abilitiesWithMod[3].score }}</div>
-                <div class="modifier">Modifier: {{ abilitiesWithMod[3].mod }}</div>
+                <div class="modifier">
+                  Modifier: {{ abilitiesWithMod[3].mod }}
+                </div>
               </v-card>
               <v-card class="ability-card wisdom" outlined>
                 <strong>Wisdom</strong>
                 <div class="score">{{ abilitiesWithMod[4].score }}</div>
-                <div class="modifier">Modifier: {{ abilitiesWithMod[4].mod }}</div>
+                <div class="modifier">
+                  Modifier: {{ abilitiesWithMod[4].mod }}
+                </div>
               </v-card>
               <v-card class="ability-card charisma" outlined>
                 <strong>Charisma</strong>
                 <div class="score">{{ abilitiesWithMod[5].score }}</div>
-                <div class="modifier">Modifier: {{ abilitiesWithMod[5].mod }}</div>
+                <div class="modifier">
+                  Modifier: {{ abilitiesWithMod[5].mod }}
+                </div>
               </v-card>
             </v-row>
           </v-col>
-           <!-- เปลี่ยนเนื้อหาเป็น poficiency bonus, walking speed, heroic inspiration, HP -->
+          <!-- เปลี่ยนเนื้อหาเป็น poficiency bonus, walking speed, heroic inspiration, HP -->
           <v-col cols="6">
             <v-row class="row2">
               <v-card class="static-card_HP Ash" outlined>
                 <strong>Proficiency Bonus</strong>
-                <div class="stat-value">{{ proficiencyBonus }}</div>
+                <div class="stat-value">{{ character.proficiencyBonus }}</div>
               </v-card>
               <v-card class="static-card Ash" outlined>
                 <strong>Walking Speed</strong>
-                <div class="stat-value">{{ walkingSpeed }} ft</div>
+                <div class="stat-value">{{ character.walkingSpeed }} ft</div>
               </v-card>
               <v-card class="static-card_HP Ash" outlined>
                 <strong>Heroic Inspiration</strong>
-                <div class="stat-value">{{ heroicInspiration }}</div>
+                <div class="stat-value">{{ character.heroicInspiration }}</div>
               </v-card>
               <v-card class="static-card_HP constitution" outlined>
                 <strong>Hit Points</strong>
                 <div class="stat-value">
-                  {{ currentHP }} / {{ maxHP }}
-                  <span v-if="tempHP">(+{{ tempHP }} temp)</span>
+                  {{ character.currentHP }} / {{ character.maxHP }}
+                  <span v-if="character.tempHP">(+{{ character.tempHP }} temp)</span>
                 </div>
-              </v-card>          
+              </v-card>
             </v-row>
           </v-col>
         </v-row>
@@ -116,16 +118,33 @@
         <v-row class="mb-2">
           <!-- col 1 -->
           <v-col cols="12" md="4">
+            <!-- Saving Throws -->
             <v-card class="pa-4 mt-2" color="pink lighten-4" outlined>
-              Row 3, Col 1 – สีอ่อน
+              <strong>Saving Throws</strong>
+              <div>STR: {{ character.SavingThrows_STR }}</div>
+              <div>DEX: {{ character.SavingThrows_DEX }}</div>
+              <div>CON: {{ character.SavingThrows_CON }}</div>
+              <div>INT: {{ character.SavingThrows_INT }}</div>
+              <div>WIS: {{ character.SavingThrows_WIS }}</div>
+              <div>CHA: {{ character.SavingThrows_CHA }}</div>
             </v-card>
+
+            <!-- Senses -->
             <v-card class="pa-4 mt-2" color="pink lighten-2" outlined>
-              Row 3, Col 1 – สีเข้มขึ้น
+              <strong>Senses</strong>
+              <div>Darkvision: {{ character.senses.darkvision }}</div>
+              <div>Passive Perception: {{ character.senses.passivePerception }}</div>
             </v-card>
+
+            <!-- Proficiencies & Training -->
             <v-card class="pa-4 mt-2" color="pink lighten-1" outlined>
-              Row 3, Col 1 – สีเข้มสุด
+              <strong>Proficiencies & Training</strong>
+              <div>Weapons: {{ character.proficienciesAndTraining.weapons.join(', ') }}</div>
+              <div>Tools: {{ character.proficienciesAndTraining.tools.join(', ') }}</div>
+              <div>Languages: {{ character.proficienciesAndTraining.languages.join(', ') }}</div>
             </v-card>
           </v-col>
+
 
           <!-- col 2 -->
           <v-col cols="12" md="4">
@@ -138,29 +157,17 @@
           <v-col cols="12" md="4">
             <v-row>
               <v-col cols="12" sm="4">
-                <v-card
-                  class="pa-4 mb-2"
-                  color="deep-purple lighten-4"
-                  outlined
-                >
+                <v-card class="pa-4 mb-2" color="deep-purple lighten-4" outlined>
                   Row 3, Col 3 - Card 1
                 </v-card>
               </v-col>
               <v-col cols="12" sm="4">
-                <v-card
-                  class="pa-4 mb-2"
-                  color="deep-purple lighten-3"
-                  outlined
-                >
+                <v-card class="pa-4 mb-2" color="deep-purple lighten-3" outlined>
                   Row 3, Col 3 - Card 2
                 </v-card>
               </v-col>
               <v-col cols="12" sm="4">
-                <v-card
-                  class="pa-4 mb-2"
-                  color="deep-purple lighten-2"
-                  outlined
-                >
+                <v-card class="pa-4 mb-2" color="deep-purple lighten-2" outlined>
                   Row 3, Col 3 - Card 3
                 </v-card>
               </v-col>
@@ -186,7 +193,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import Topbar from "../components/topbar.vue";
 import cmImg from "@/assets/cm.jpg";
 
@@ -217,11 +224,31 @@ const character = {
   currentHP: 25,
   maxHP: 30,
   tempHP: 5,
+
+  // แยกเป็นตัวแปรสำหรับแต่ละ Saving Throw
+  SavingThrows_STR: 0,
+  SavingThrows_DEX: -1,
+  SavingThrows_CON: -2,
+  SavingThrows_INT: 4,
+  SavingThrows_WIS: 5,
+  SavingThrows_CHA: 5,
+
+  senses: {
+    darkvision: "60 ft",
+    passivePerception: 15,
+  },
+
+  proficienciesAndTraining: {
+    weapons: ["Daggers", "Shortswords"],
+    tools: ["Thieves' Tools"],
+    languages: ["Common", "Elvish"],
+  },
 };
+
 
 // คำนวณ modifier ของ abilities
 const abilitiesWithMod = computed(() =>
-  character.abilities.map(a => ({
+  character.abilities.map((a) => ({
     ...a,
     mod: Math.floor((a.score - 10) / 2),
   }))
@@ -234,23 +261,30 @@ const abilitiesWithMod = computed(() =>
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  
 }
+
 .character-card .character-info {
-  text-align: left; /* ชิดซ้าย */
-  align-self: flex-start; /* ชิดบน */
+  text-align: left;
+  /* ชิดซ้าย */
+  align-self: flex-start;
+  /* ชิดบน */
 }
 
 .character-card .character-img {
   display: flex;
-  justify-content: center; /* รูปอยู่กลางแนวนอน */
-  align-items: flex-start; /* รูปชิดบน */
+  justify-content: center;
+  /* รูปอยู่กลางแนวนอน */
+  align-items: flex-start;
+  /* รูปชิดบน */
 }
+
 .row1 {
-  margin-bottom: 4px; /* ระยะห่างระหว่างการ์ด */
+  margin-bottom: 4px;
+  /* ระยะห่างระหว่างการ์ด */
   height: 160px;
 }
-.row2{
+
+.row2 {
   margin-bottom: 4px;
   padding: 12px;
 }
@@ -260,6 +294,7 @@ const abilitiesWithMod = computed(() =>
   font-weight: 700;
   margin-top: 6px;
 }
+
 .modifier {
   font-size: 16px;
   color: #444;
@@ -274,9 +309,10 @@ const abilitiesWithMod = computed(() =>
   padding: 12px;
   text-align: center;
   border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   color: white;
-  transition: 0.2s; /* สำหรับ hover effect */
+  transition: 0.2s;
+  /* สำหรับ hover effect */
 }
 
 .ability-card .score {
@@ -284,19 +320,40 @@ const abilitiesWithMod = computed(() =>
   font-weight: bold;
   margin: 6px 0;
 }
+
 .ability-card .modifier {
   font-size: 16px;
   color: #f0f0f0;
 }
 
 /* สีพื้นหลังแตกต่างตาม ability */
-.strength { background-color: #ef5350; }      /* แดง */
-.dexterity { background-color: #42a5f5; }     /* น้ำเงิน */
-.constitution { background-color: #66bb6a; }  /* เขียว */
-.intelligence { background-color: #ab47bc; }  /* ม่วง */
-.wisdom { background-color: #ffa726; }        /* ส้ม */
-.charisma { background-color: #ec407a; }      /* ชมพู */
-.Ash { background-color: #90a4ae; }          /* เทา */
+.strength {
+  background-color: #ef5350;
+}
+
+.dexterity {
+  background-color: #42a5f5;
+}
+
+.constitution {
+  background-color: #66bb6a;
+}
+
+.intelligence {
+  background-color: #ab47bc;
+}
+
+.wisdom {
+  background-color: #ffa726;
+}
+
+.charisma {
+  background-color: #ec407a;
+}
+
+.Ash {
+  background-color: #90a4ae;
+}
 
 .static-card {
   margin-right: 8px;
@@ -306,10 +363,10 @@ const abilitiesWithMod = computed(() =>
   padding: 12px;
   text-align: center;
   border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   color: white;
-  transition: 0.2s; /* สำหรับ hover effect */
 }
+
 .static-card_HP {
   margin-right: 8px;
   margin-bottom: 8px;
@@ -318,8 +375,7 @@ const abilitiesWithMod = computed(() =>
   padding: 12px;
   text-align: center;
   border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   color: white;
-  transition: 0.2s; /* สำหรับ hover effect */
 }
 </style>
