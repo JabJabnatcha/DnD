@@ -239,13 +239,15 @@ const abilitiesWithMod = computed(() =>
 }
 
 .ability-card {
-  margin-bottom: 12px;
+  margin: 8px; /* เว้นระยะทุกด้าน */
   padding: 12px;
   text-align: center;
   border-radius: 12px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.15);
   color: white;
+  transition: 0.2s; /* สำหรับ hover effect */
 }
+
 .ability-card .score {
   font-size: 24px;
   font-weight: bold;
