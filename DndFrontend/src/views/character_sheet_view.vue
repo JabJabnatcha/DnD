@@ -9,7 +9,7 @@
       <!-- Container 10/12 -->
       <v-col cols="11" style="background-color: black">
         <!-- Row 1: Character Cards -->
-        <v-row class="row1" v-for="character in characters" :key="character.id">
+        <v-row class="row1" key="character.id">
           <v-col cols="12">
             <v-card
               height="150px"
@@ -86,10 +86,29 @@
               </v-card>
             </v-row>
           </v-col>
-
-          <!-- ด้านขวา: เว้นไว้ -->
+           <!-- เปลี่ยนเนื้อหาเป็น poficiency bonus, walking speed, heroic inspiration, HP -->
           <v-col cols="6">
-            <v-card class="pa-4"></v-card>
+            <v-row class="row2">
+              <v-card class="static-card_HP Ash" outlined>
+                <strong>Proficiency Bonus</strong>
+                <div class="stat-value">{{ proficiencyBonus }}</div>
+              </v-card>
+              <v-card class="static-card Ash" outlined>
+                <strong>Walking Speed</strong>
+                <div class="stat-value">{{ walkingSpeed }} ft</div>
+              </v-card>
+              <v-card class="static-card_HP Ash" outlined>
+                <strong>Heroic Inspiration</strong>
+                <div class="stat-value">{{ heroicInspiration }}</div>
+              </v-card>
+              <v-card class="static-card_HP constitution" outlined>
+                <strong>Hit Points</strong>
+                <div class="stat-value">
+                  {{ currentHP }} / {{ maxHP }}
+                  <span v-if="tempHP">(+{{ tempHP }} temp)</span>
+                </div>
+              </v-card>          
+            </v-row>
           </v-col>
         </v-row>
 
@@ -171,35 +190,38 @@ import { ref, computed } from "vue";
 import Topbar from "../components/topbar.vue";
 import cmImg from "@/assets/cm.jpg";
 
-const characters = ref([
-  {
-    id: 1,
-    player: "Alice",
-    name: "Aria",
-    gender: "Female",
-    race: "Elf",
-    subrace: "High Elf",
-    class: "Wizard",
-    subclass: "Evocation",
-    level: 3,
-    exp: 1200,
-    image: cmImg,
-  },
-]);
+// รวมทุกอย่างไว้ใน object ตัวเดียว
+const character = {
+  id: 1,
+  player: "Alice",
+  name: "Aria",
+  gender: "Female",
+  race: "Elf",
+  subrace: "High Elf",
+  class: "Wizard",
+  subclass: "Evocation",
+  level: 3,
+  exp: 1200,
+  image: cmImg,
+  abilities: [
+    { name: "Strength", score: 10 },
+    { name: "Dexterity", score: 8 },
+    { name: "Constitution", score: 7 },
+    { name: "Intelligence", score: 19 },
+    { name: "Wisdom", score: 20 },
+    { name: "Charisma", score: 20 },
+  ],
+  proficiencyBonus: 2,
+  walkingSpeed: 30,
+  heroicInspiration: 1,
+  currentHP: 25,
+  maxHP: 30,
+  tempHP: 5,
+};
 
-// --- ตัวอย่าง abilities (แก้ค่าได้ตามต้องการ) ---
-const abilities = ref([
-  { name: "Strength", score: 10 },
-  { name: "Dexterity", score: 8 },
-  { name: "Constitution", score: 7 },
-  { name: "Intelligence", score: 19 },
-  { name: "Wisdom", score: 20 },
-  { name: "Charisma", score: 20 },
-]);
-
-// คำนวณ modifier ตาม D&D 5e: floor((score - 10) / 2)
+// คำนวณ modifier ของ abilities
 const abilitiesWithMod = computed(() =>
-  abilities.value.map((a) => ({
+  character.abilities.map(a => ({
     ...a,
     mod: Math.floor((a.score - 10) / 2),
   }))
@@ -248,6 +270,7 @@ const abilitiesWithMod = computed(() =>
   margin-right: 8px;
   margin-bottom: 8px;
   width: 120px;
+  height: 120px;
   padding: 12px;
   text-align: center;
   border-radius: 12px;
@@ -273,5 +296,30 @@ const abilitiesWithMod = computed(() =>
 .intelligence { background-color: #ab47bc; }  /* ม่วง */
 .wisdom { background-color: #ffa726; }        /* ส้ม */
 .charisma { background-color: #ec407a; }      /* ชมพู */
+.Ash { background-color: #90a4ae; }          /* เทา */
 
+.static-card {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  width: 120px;
+  height: 120px;
+  padding: 12px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  color: white;
+  transition: 0.2s; /* สำหรับ hover effect */
+}
+.static-card_HP {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  width: 205px;
+  height: 120px;
+  padding: 12px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  color: white;
+  transition: 0.2s; /* สำหรับ hover effect */
+}
 </style>
