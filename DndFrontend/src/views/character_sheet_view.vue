@@ -50,10 +50,10 @@
         </v-row>
 
         <!-- Row 2: Secondary Info -->
-        <v-row class="mb-4">
+        <v-row>
           <!-- ด้านซ้าย: Ability Scores -->
           <v-col cols="6">
-            <v-row>
+            <v-row class="row2">
               <v-card class="ability-card strength" outlined>
                 <strong>Strength</strong>
                 <div class="score">{{ abilitiesWithMod[0].score }}</div>
@@ -212,6 +212,7 @@ const abilitiesWithMod = computed(() =>
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  
 }
 .character-card .character-info {
   text-align: left; /* ชิดซ้าย */
@@ -227,6 +228,10 @@ const abilitiesWithMod = computed(() =>
   margin-bottom: 4px; /* ระยะห่างระหว่างการ์ด */
   height: 160px;
 }
+.row2{
+  margin-bottom: 4px;
+}
+
 .score {
   font-size: 22px;
   font-weight: 700;
@@ -239,7 +244,9 @@ const abilitiesWithMod = computed(() =>
 }
 
 .ability-card {
-  margin: 8px; /* เว้นระยะทุกด้าน */
+  margin-right: 8px;
+  margin-bottom: 8px;
+  width: 120px;
   padding: 12px;
   text-align: center;
   border-radius: 12px;
