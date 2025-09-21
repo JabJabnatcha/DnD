@@ -230,6 +230,7 @@ const abilitiesWithMod = computed(() =>
 }
 .row2{
   margin-bottom: 4px;
+  padding: 12px;
 }
 
 .score {
