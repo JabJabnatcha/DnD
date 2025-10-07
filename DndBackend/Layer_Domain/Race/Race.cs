@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Layer_Domain.Entities.Race
 {
-    public class RaceCharacter
+    public class CHARACTER_RACE
     {
         [Key]
         public int RaceId { get; set; } //pk
@@ -17,7 +17,7 @@ namespace Layer_Domain.Entities.Race
         public int SpeedBase { get; set; }
 
         // Navigation
-        public List<Subrace> Subraces { get; set; } = new();
-        public List<Feature> Features { get; set; } = new();
+        public List<SUB_RACE> SUBRACEs { get; set; } = new();
+        public List<SUB_RACE_FEATURE> SUBRACEFEATUREs { get; set; } = new();
     }
 }

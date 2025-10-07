@@ -3,12 +3,12 @@ using Layer_Domain.Entities;
 
 namespace Layer_Domain.Entities.Spells
 {
-    public class SpellCharacter
+    public class SPELL_CHARACTER
     {
         public int CharId { get; set; }
-        public Character Character { get; set; } = null!;
+        public CHARACTER Character { get; set; } = null!;
 
         public int SpellId { get; set; }
-        public Spell Spell { get; set; } = null!;
+        public SPELL Spell { get; set; } = null!;
     }
 }

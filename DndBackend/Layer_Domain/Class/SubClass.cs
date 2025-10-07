@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Layer_Domain.Entities.Class
 {
-    public class Subclass
+    public class SUB_CHARACTER_CLASS
     {
         [Key]
         public int SubClassId { get; set; }
@@ -11,8 +11,8 @@ namespace Layer_Domain.Entities.Class
         public required string SubClassDescription { get; set; }
 
         public int ClassId { get; set; }
-        public required ClassChatacter Class { get; set; }
+        public required CHARACTER_CLASS CharacterClasses { get; set; }
 
-        public List<Feature> Features { get; set; } = new();
+        public List<SUB_CLASS_FEATURE> SUBCLASSFEATUREs { get; set; } = new();
     }
 }

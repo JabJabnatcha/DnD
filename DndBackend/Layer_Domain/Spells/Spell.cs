@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Layer_Domain.Entities.Spells
 {
-    public class Spell
+    public class SPELL
     {
         public int SpellId { get; set; }
 
@@ -29,7 +29,6 @@ namespace Layer_Domain.Entities.Spells
         public string? Effect { get; set; }  
         
          // Navigation junction tables
-    public List<SpellClass> SpellsClass { get; set; } = new();
-    public List<SpellCharacter> SpellsCharacter { get; set; } = new();           // e.g., "Stunned", "Knocked prone"
+    public List<SPELL_CHARACTER> SpellsCharacter { get; set; } = new();           // e.g., "Stunned", "Knocked prone"
     }
 }

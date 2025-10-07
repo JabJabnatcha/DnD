@@ -1,6 +1,6 @@
 namespace Layer_Domain.Entities
 {
-    public enum Alignment
+    public enum ALIGNMENT
     {
         LawfulGood,
         NeutralGood,

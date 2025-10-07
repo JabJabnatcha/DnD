@@ -7,26 +7,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Layer_Domain.Entities
 {
-    public class Character
+    public class CHARACTER
     {
         [Key]
         public int CharId { get; set; }
         public required string PlayerName { get; set; }
         public required string CharName { get; set; }
-        public required string Surname { get; set; }
-        public Alignment Alignment { get; set; }
+        public ALIGNMENT Alignment { get; set; }
+        public int Level { get; set; }
+        public int ExperiencePoints { get; set; }
 
         // Race/Subrace
         public int RaceId { get; set; }
-        public RaceCharacter Race { get; set; } = null!;   // Navigation property
+        public CHARACTER_RACE Race { get; set; } = null!;   // Navigation property
         public int? SubraceId { get; set; }
-        public Subrace? Subrace { get; set; }
+        public SUB_RACE? Subrace { get; set; }
 
         // Class/Subclass
         public int ClassId { get; set; }
-        public ClassChatacter Class { get; set; } = null!; // Navigation property
+        public CHARACTER_CLASS Class { get; set; } = null!; // Navigation property
         public int? SubclassId { get; set; }
-        public Subclass? Subclass { get; set; }
+        public SUB_CHARACTER_CLASS? Subclass { get; set; }
 
         // Appearance
         public int HeightCm { get; set; }
@@ -39,21 +40,97 @@ namespace Layer_Domain.Entities
         public string ExtraDescription { get; set; } = string.Empty;
         public string Biography { get; set; } = string.Empty;
 
-        // Stats
-        public int Str { get; set; }
-        public int Dex { get; set; }
-        public int Con { get; set; }
-        public int Int { get; set; }
-        public int Wis { get; set; }
-        public int Cha { get; set; }
+        public int Base_Str { get; set; }
+        public int Bonus_Str { get; set; }
+        public int Base_Dex { get; set; }
+        public int Bonus_Dex { get; set; }
+        public int Base_Con { get; set; }
+        public int Bonus_Con { get; set; }
+        public int Base_Int { get; set; }
+        public int Bonus_Int { get; set; }
+        public int Base_Wis { get; set; }
+        public int Bonus_Wis { get; set; }
+        public int Base_Cha { get; set; }
+        public int Bonus_Cha { get; set; }
 
-        // Navigation
-        public List<Feature> Features { get; set; } = new();
-        public List<Skill> Skills { get; set; } = new();
-        public List<Item> Items { get; set; } = new();
+        public int Inspiration { get; set; }
+        public int ProficiencyBonus { get; set; }
+        public int ArmorClass { get; set; }
+        public int Initiative { get; set; }
+        public int Speed { get; set; }
+        public int MaxHitPoints { get; set; }
+        public int CurrentHitPoints { get; set; }
+        public int TemporaryHitPoints { get; set; }
 
-        // Junction tables
-        public List<SpellCharacter> SpellsCharacter { get; set; } = new();
+        public int DeathSaveSuccess { get; set; }
+        public int DeathSaveFailure { get; set; }
+
+        public int PassivePerception { get; set; }
+        public int Currency_CP { get; set; }
+        public int Currency_SP { get; set; }
+        public int Currency_EP { get; set; }
+        public int Currency_GP { get; set; }
+        public int Currency_PP { get; set; }
+
+        // Navigation properties
+        public int Acrobatics { get; set; }
+        public bool AcrobaticsProficient { get; set; }
+
+        public int AnimalHandling { get; set; }
+        public bool AnimalHandlingProficient { get; set; }
+
+        public int Arcana { get; set; }
+        public bool ArcanaProficient { get; set; }
+
+        public int Athletics { get; set; }
+        public bool AthleticsProficient { get; set; }
+
+        public int Deception { get; set; }
+        public bool DeceptionProficient { get; set; }
+
+        public int History { get; set; }
+        public bool HistoryProficient { get; set; }
+
+        public int Insight { get; set; }
+        public bool InsightProficient { get; set; }
+
+        public int Intimidation { get; set; }
+        public bool IntimidationProficient { get; set; }
+
+        public int Investigation { get; set; }
+        public bool InvestigationProficient { get; set; }
+
+        public int Medicine { get; set; }
+        public bool MedicineProficient { get; set; }
+
+        public int Nature { get; set; }
+        public bool NatureProficient { get; set; }
+
+        public int Perception { get; set; }
+        public bool PerceptionProficient { get; set; }
+
+        public int Performance { get; set; }
+        public bool PerformanceProficient { get; set; }
+
+        public int Persuasion { get; set; }
+        public bool PersuasionProficient { get; set; }
+
+        public int Religion { get; set; }
+        public bool ReligionProficient { get; set; }
+
+        public int SleightOfHand { get; set; }
+        public bool SleightOfHandProficient { get; set; }
+
+        public int Stealth { get; set; }
+        public bool StealthProficient { get; set; }
+
+        public int Survival { get; set; }
+        public bool SurvivalProficient { get; set; }
+
+        // public List<Inventory> Inventories { get; set; } = new();
+
+        // // Junction tables
+        // public List<SpellCharacter> SpellsCharacter { get; set; } = new();
 
     }
 }
