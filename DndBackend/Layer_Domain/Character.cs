@@ -21,7 +21,7 @@ namespace Layer_Domain.Entities
         public int RaceId { get; set; }
         public CHARACTER_RACE Race { get; set; } = null!;   // Navigation property
         public int? SubraceId { get; set; }
-        public SUB_RACE? Subrace { get; set; }
+        public SUB_RACE Subrace { get; set; } = null!;
 
         // Class/Subclass
         public int ClassId { get; set; }
@@ -66,11 +66,6 @@ namespace Layer_Domain.Entities
         public int DeathSaveFailure { get; set; }
 
         public int PassivePerception { get; set; }
-        public int Currency_CP { get; set; }
-        public int Currency_SP { get; set; }
-        public int Currency_EP { get; set; }
-        public int Currency_GP { get; set; }
-        public int Currency_PP { get; set; }
 
         // Navigation properties
         public int Acrobatics { get; set; }
@@ -127,10 +122,15 @@ namespace Layer_Domain.Entities
         public int Survival { get; set; }
         public bool SurvivalProficient { get; set; }
 
-        // public List<Inventory> Inventories { get; set; } = new();
+        public List<INVENTORY> Inventories { get; set; } = new();
+        public Bank? Bank { get; set; }
 
         // // Junction tables
         // public List<SpellCharacter> SpellsCharacter { get; set; } = new();
 
+        public bool IsDeleted { get; set; } = false;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        
     }
 }

@@ -11,22 +11,21 @@ namespace Layer_Infrastructure.Data
     {
         public DndDbContext(DbContextOptions<DndDbContext> options) : base(options) { }
 
-        public DbSet<Character> Characters { get; set; }
-        public DbSet<RaceCharacter> Races { get; set; }
-        public DbSet<Subrace> Subraces { get; set; }
-        public DbSet<ClassChatacter> Classes { get; set; }
-        public DbSet<Subclass> Subclasses { get; set; }
-        public DbSet<Item> Items { get; set; }
-        public DbSet<Spell> Spells { get; set; }
-        public DbSet<Feature> Features { get; set; }
-        public DbSet<Skill> Skills { get; set; }
+        public DbSet<CHARACTER> Characters { get; set; }
+        public DbSet<CHARACTER_RACE> Races { get; set; }
+        public DbSet<SUB_RACE> Subraces { get; set; }
+        public DbSet<CHARACTER_CLASS> Classes { get; set; }
+        public DbSet<SUB_RACE> Subclasses { get; set; }
+        public DbSet<ITEM> Items { get; set; }
+        public DbSet<SPELL> Spells { get; set; }
+        public DbSet<FEATURE> Features { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // TPH สำหรับ Item inheritance
-            modelBuilder.Entity<Item>()
+            modelBuilder.Entity<ITEM>()
                         .HasDiscriminator(i => i.ItemCategory)
                         .HasValue<Weapon>(ItemCategory.Weapon)
                         .HasValue<Armor>(ItemCategory.Armor)
@@ -35,39 +34,39 @@ namespace Layer_Infrastructure.Data
                         .HasValue<Equipment>(ItemCategory.Other);
 
             // Character -> Race/Subrace
-            modelBuilder.Entity<Character>()
+            modelBuilder.Entity<CHARACTER>()
                 .HasOne(c => c.Race)
                 .WithMany()
                 .HasForeignKey(c => c.RaceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Character>()
+            modelBuilder.Entity<CHARACTER>()
                 .HasOne(c => c.Subrace)
                 .WithMany()
                 .HasForeignKey(c => c.SubraceId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             // Character -> Class/Subclass
-            modelBuilder.Entity<Character>()
+            modelBuilder.Entity<CHARACTER>()
                 .HasOne(c => c.Class)
                 .WithMany()
                 .HasForeignKey(c => c.ClassId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Character>()
+            modelBuilder.Entity<CHARACTER>()
                 .HasOne(c => c.Subclass)
                 .WithMany()
                 .HasForeignKey(c => c.SubclassId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             // Character -> Items
-            modelBuilder.Entity<Character>()
+            modelBuilder.Entity<CHARACTER>()
                 .HasMany(c => c.Items)
                 .WithMany();
 
             // Character -> Spells
-            modelBuilder.Entity<Character>()
-                .HasMany(c => c.SpellsCharacter)
+            modelBuilder.Entity<CHARACTER>()
+                .HasMany(c => c.SPELLCHARACTER)
                 .WithMany();
 
             // Class <-> Spell

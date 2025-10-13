@@ -1,6 +1,6 @@
 namespace Layer_Domain.Entities.Items
 {
-    public class Armor : Item
+    public class Armor : ITEM
     {
         public int ArmorClass { get; set; }
         public int MaxDexBonus { get; set; }      // Max dex modifier

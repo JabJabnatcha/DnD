@@ -1,6 +1,6 @@
 namespace Layer_Domain.Entities.Items
 {
-    public class Consumable : Item
+    public class Consumable : ITEM
 {
     public int Quantity { get; set; }
     public string? Effect { get; set; }       // e.g., Heal 2d4+2
