@@ -122,7 +122,7 @@ namespace Layer_Domain.Entities
         public int Survival { get; set; }
         public bool SurvivalProficient { get; set; }
 
-        public List<INVENTORY> Inventories { get; set; } = new();
+        public INVENTORY Inventories { get; set; } = new();
         public Bank? Bank { get; set; }
 
         // // Junction tables
