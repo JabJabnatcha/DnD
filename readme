@@ -1,0 +1,231 @@
+using System;
+using System.Collections.Generic;
+
+class Character
+{
+    public int Character_ID { get; set; }
+    public string Character_Name { get; set; } = "Unknown";
+    public string Player_Name { get; set; } = "Player";
+    public int Level { get; set; } = 1;
+    public int Exp_Max_Level { get; set; } = 100;
+    public int Exp_Current { get; set; } = 0;
+
+    public string Char_Race { get; set; } = "Human";
+    public string Char_SubRace { get; set; } = "None";
+    public string Char_Class { get; set; } = "Fighter";
+    public string Alignment { get; set; } = "Neutral";
+
+    public string Background1 { get; set; } = "None";
+    public string Background2 { get; set; } = "None";
+    public string Background3 { get; set; } = "None";
+
+    public int PP { get; set; } = 0;
+    public int GP { get; set; } = 0;
+    public int EP { get; set; } = 0;
+    public int SP { get; set; } = 0;
+    public int CP { get; set; } = 0;
+
+    public int Strength { get; set; } = 10;
+    public int Dexterity { get; set; } = 10;
+    public int Constitution { get; set; } = 10;
+    public int Intelligence { get; set; } = 10;
+    public int Wisdom { get; set; } = 10;
+    public int Charisma { get; set; } = 10;
+
+    public List<string> Skills { get; set; } = new List<string>();
+
+    public int Max_HP => (int)(Constitution + (Level * 5) + (Strength * 0.3));
+    public int Current_HP { get; set; }
+    public int Armor_Class { get; set; } = 10;
+    public int Proficiency { get; set; } = 2;
+    public int Speed { get; set; } = 30;
+
+    public bool IsDead => Current_HP <= 0;
+
+    public Character() => Current_HP = Max_HP;
+
+    public void ShowInfo()
+    {
+        Console.WriteLine("\n======= CHARACTER INFO =======");
+        Console.WriteLine($"Character: {Character_Name}");
+        Console.WriteLine($"Player: {Player_Name}");
+        Console.WriteLine($"Race: {Char_Race}");
+        Console.WriteLine($"Class: {Char_Class}");
+        Console.WriteLine($"Alignment: {Alignment}");
+        Console.WriteLine($"Backgrounds: {Background1}, {Background2}, {Background3}");
+        Console.WriteLine("-------------------------------");
+        Console.WriteLine($"Level: {Level} | HP: {Current_HP}/{Max_HP}");
+        Console.WriteLine(
+            $"STR {Strength} ({GetModifier(Strength):+0;-0;0}), " +
+            $"DEX {Dexterity} ({GetModifier(Dexterity):+0;-0;0}), " +
+            $"CON {Constitution} ({GetModifier(Constitution):+0;-0;0}), " +
+            $"INT {Intelligence} ({GetModifier(Intelligence):+0;-0;0}), " +
+            $"WIS {Wisdom} ({GetModifier(Wisdom):+0;-0;0}), " +
+            $"CHA {Charisma} ({GetModifier(Charisma):+0;-0;0})"
+        );
+        Console.WriteLine($"Money: PP {PP}, GP {GP}, EP {EP}, SP {SP}, CP {CP}");
+        if (Skills.Count > 0)
+        {
+            Console.WriteLine("Skills: " + string.Join(", ", Skills));
+        }
+        Console.WriteLine("===============================");
+    }
+
+    public int GetModifier(int ability) => (ability - 10) / 2;
+
+    public void GainExp(int amount)
+    {
+        Exp_Current += amount;
+        while (Exp_Current >= Exp_Max_Level)
+        {
+            Exp_Current -= Exp_Max_Level;
+            Level++;
+            Exp_Max_Level += 100 * Level;
+            Current_HP = Max_HP;
+            Console.WriteLine($"{Character_Name} leveled up to {Level}!");
+        }
+    }
+
+    public void ApplyBackgroundBonus(string background)
+    {
+        switch (background)
+        {
+            case "Soldier":
+                Strength += 2;
+                Constitution += 2;
+                Skills.Add("Athletics");
+                break;
+            case "Criminal":
+                Dexterity += 2;
+                Skills.Add("Stealth");
+                break;
+            case "Noble":
+                GP += 100;
+                Skills.Add("Persuasion");
+                break;
+            case "Folk Hero":
+                Skills.Add("Survival");
+                break;
+            case "Entertainer":
+                Charisma += 2;
+                Skills.Add("Performance");
+                break;
+            case "Acolyte":
+                Skills.Add("Medicine");
+                break;
+            case "Sage":
+                Intelligence += 2;
+                Skills.Add("Arcana");
+                break;
+            case "Hermit":
+                Wisdom += 2;
+                Skills.Add("Insight");
+                break;
+        }
+    }
+}
+
+class CreateCharacterD
+{
+    static Random r = new Random();
+
+    static void Main()
+    {
+        List<string> races = new List<string> { "Human", "Elf", "Dwarf", "Halfling", "Tiefling" };
+        List<string> classes = new List<string> { "Fighter", "Wizard", "Rogue", "Cleric", "Paladin" };
+        List<string> alignments = new List<string>
+        {
+            "Lawful Good", "Neutral Good", "Chaotic Good",
+            "Lawful Neutral", "True Neutral", "Chaotic Neutral",
+            "Lawful Evil", "Neutral Evil", "Chaotic Evil"
+        };
+        List<string> backgrounds = new List<string>
+        {
+            "Soldier", "Noble", "Criminal", "Sage", "Hermit", "Folk Hero", "Acolyte", "Entertainer"
+        };
+
+        Character c = new Character();
+
+        Console.Write("Enter character name: ");
+        c.Character_Name = Console.ReadLine();
+        Console.Write("Enter player name: ");
+        c.Player_Name = Console.ReadLine();
+
+        Console.WriteLine("\nChoose Race:");
+        for (int i = 0; i < races.Count; i++)
+            Console.WriteLine($"{i + 1}. {races[i]}");
+        c.Char_Race = races[GetChoice(races.Count) - 1];
+
+        Console.WriteLine("\nChoose Class:");
+        for (int i = 0; i < classes.Count; i++)
+            Console.WriteLine($"{i + 1}. {classes[i]}");
+        c.Char_Class = classes[GetChoice(classes.Count) - 1];
+
+        Console.WriteLine("\nChoose Alignment:");
+        for (int i = 0; i < alignments.Count; i++)
+            Console.WriteLine($"{i + 1}. {alignments[i]}");
+        c.Alignment = alignments[GetChoice(alignments.Count) - 1];
+
+        // ─────── สุ่ม Status ───────
+        Console.WriteLine("\nRolling ability scores (4d6, drop lowest)...");
+        c.Strength = RollStat();
+        c.Dexterity = RollStat();
+        c.Constitution = RollStat();
+        c.Intelligence = RollStat();
+        c.Wisdom = RollStat();
+        c.Charisma = RollStat();
+
+        Console.WriteLine("Rolled ability scores:");
+        Console.WriteLine($"STR {c.Strength}, DEX {c.Dexterity}, CON {c.Constitution}, INT {c.Intelligence}, WIS {c.Wisdom}, CHA {c.Charisma}");
+
+        // ─────── เลือก Background ไม่ซ้ำ ───────
+        Console.WriteLine("\nChoose 3 Backgrounds:");
+        List<int> chosenIndexes = new List<int>();
+        for (int i = 1; i <= 3; i++)
+        {
+            int choice;
+            while (true)
+            {
+                for (int j = 0; j < backgrounds.Count; j++)
+                    Console.WriteLine($"{j + 1}. {backgrounds[j]}");
+
+                Console.Write($"Background {i}: ");
+                if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= backgrounds.Count && !chosenIndexes.Contains(choice))
+                {
+                    chosenIndexes.Add(choice);
+                    string bg = backgrounds[choice - 1];
+                    if (i == 1) c.Background1 = bg;
+                    if (i == 2) c.Background2 = bg;
+                    if (i == 3) c.Background3 = bg;
+
+                    c.ApplyBackgroundBonus(bg); // apply bonus
+                    break;
+                }
+                Console.WriteLine("Invalid input or already chosen, try again.");
+            }
+        }
+
+        c.ShowInfo();
+    }
+
+    static int GetChoice(int max)
+    {
+        int choice;
+        while (true)
+        {
+            Console.Write("Select number: ");
+            if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= max)
+                return choice;
+            Console.WriteLine("Invalid input, please try again.");
+        }
+    }
+
+    static int RollStat()
+    {
+        int[] rolls = new int[4];
+        for (int i = 0; i < 4; i++)
+            rolls[i] = r.Next(1, 7);
+        Array.Sort(rolls);
+        return rolls[1] + rolls[2] + rolls[3]; // drop lowest
+    }
+}

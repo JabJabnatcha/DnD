@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "jLupPvG5qrY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Laptop-JAB\\Desktop\\Learn\\DnD\\backend\\GameDnD.API\\GameDnD.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Laptop-JAB\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.7\\microsoft.aspnetcore.openapi.9.0.7.nupkg.sha512",
+    "C:\\Users\\Laptop-JAB\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\10.0.0\\microsoft.entityframeworkcore.tools.10.0.0.nupkg.sha512",
+    "C:\\Users\\Laptop-JAB\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
