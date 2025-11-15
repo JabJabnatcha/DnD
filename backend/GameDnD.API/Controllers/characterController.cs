@@ -23,6 +23,8 @@ namespace GameDnD.API.Controllers
             // ดึงเฉพาะที่ไม่ถูก soft delete
             return await _context.Characters
                                  .Where(c => !c.IsDeleted)
+                                 .Include(c => c.Items)
+                                 .Include(c => c.Spells)
                                  .ToListAsync();
         }
 
@@ -30,7 +32,10 @@ namespace GameDnD.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Character>> GetCharacter(int id)
         {
-            var character = await _context.Characters.FindAsync(id);
+            var character = await _context.Characters
+                                            .Include(c => c.Items)
+                                            .Include(c => c.Spells)
+                                            .FirstOrDefaultAsync(c => c.Id == id);
 
             if (character == null || character.IsDeleted)
             {
