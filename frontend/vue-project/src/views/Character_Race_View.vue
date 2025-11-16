@@ -1,16 +1,14 @@
 <template>
-  <v-app>
-    <topbar />
-
+  
     <div class="layout">
-      <!-- <need more space> -->
+
       <div class="card">
         <img :src="cards[0].image" alt="Card 1" class="card-image" />
         <h2>{{ cards[0].title }}</h2>
         <p>{{ cards[0].subtitle }}</p>
       </div>
 
-      <button @click="rotateLeft" class="nav-button">⬅️</button>
+    <button @click="rotateLeft" class="nav-button">⬅️</button>
 
       <div class="card-center">
         <img :src="cards[1].image" alt="Card 2" class="card-image" />
@@ -18,16 +16,14 @@
         <p>{{ cards[1].subtitle }}</p>
       </div>
 
-      <button @click="rotateRight" class="nav-button">➡️</button>
+    <button @click="rotateRight" class="nav-button">➡️</button>
 
       <div class="card">
         <img :src="cards[2].image" alt="Card 3" class="card-image" />
         <h2>{{ cards[2].title }}</h2>
         <p>{{ cards[2].subtitle }}</p>
       </div>
-    </div>
-  </v-app>
-
+  </div>
 </template>
 
 <script setup>
@@ -67,7 +63,7 @@ function rotateRight() {
   justify-content: center;
   align-items: center;
   gap: 20px;
-  margin-top: 130px;
+  margin-top: 40px;
 }
 
 .card-container {
@@ -83,9 +79,8 @@ function rotateRight() {
   border: 1px solid #ccc;
   padding: 16px;
 }
-
 .card-center {
-  width: 600px;
+  width: 1100px;
   margin: 20px;
   border: 1px solid #ccc;
   padding: 16px;
