@@ -16,7 +16,7 @@
 
 <style scoped>
 .top-bar {
-  background-color: #3333332b;
+  background-color: #58c7f675;
   color: white;
   padding: 2rem;
   text-align: center;
@@ -42,12 +42,12 @@ a.router-link-exact-active {
 
 
 .nav-btn {
-  background-color: #2d3944;
+  background-color: #000000;
   color: white;
   text-decoration: none;
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 1.2rem;
   border-radius: 8px;
-  font-size: 2rem;
+  font-size: 1rem;
   font-family: 'Arial', sans-serif;
   font-weight: bold;
   text-transform: uppercase;

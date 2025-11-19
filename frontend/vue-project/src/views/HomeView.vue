@@ -1,38 +1,38 @@
+
 <template>
-  <v-app>
-    <topbar />
+  <v-app class="bg-image">
+      <topbar />
 
-    <div class="layout">
-      <!-- <need more space> -->
-      <div class="card">
-        <img :src="cards[0].image" alt="Card 1" class="card-image" />
-        <h2>{{ cards[0].title }}</h2>
-        <p>{{ cards[0].subtitle }}</p>
+      <div class="layout">
+        <div class="card">
+          <img :src="cards[0].image" class="card-image" />
+          <h2>{{ cards[0].title }}</h2>
+          <p>{{ cards[0].subtitle }}</p>
+        </div>
+
+        <button @click="rotateLeft" class="nav-button">⬅️</button>
+
+        <div class="card-center">
+          <img :src="cards[1].image" class="card-image" />
+          <h2>{{ cards[1].title }}</h2>
+          <p>{{ cards[1].subtitle }}</p>
+        </div>
+
+        <button @click="rotateRight" class="nav-button">➡️</button>
+
+        <div class="card">
+          <img :src="cards[2].image" class="card-image" />
+          <h2>{{ cards[2].title }}</h2>
+          <p>{{ cards[2].subtitle }}</p>
+        </div>
       </div>
-
-      <button @click="rotateLeft" class="nav-button">⬅️</button>
-
-      <div class="card-center">
-        <img :src="cards[1].image" alt="Card 2" class="card-image" />
-        <h2>{{ cards[1].title }}</h2>
-        <p>{{ cards[1].subtitle }}</p>
-      </div>
-
-      <button @click="rotateRight" class="nav-button">➡️</button>
-
-      <div class="card">
-        <img :src="cards[2].image" alt="Card 3" class="card-image" />
-        <h2>{{ cards[2].title }}</h2>
-        <p>{{ cards[2].subtitle }}</p>
-      </div>
-    </div>
   </v-app>
-
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import Topbar from '@/components/Topbar.vue';
+import { VApp } from 'vuetify/components';
 
 const cards = ref([
   {
@@ -52,16 +52,24 @@ const cards = ref([
   }
 ]);
 
-function rotateLeft() {
+const rotateLeft = () => {
   cards.value.unshift(cards.value.pop());
-}
-
-function rotateRight() {
+};
+const rotateRight = () => {
   cards.value.push(cards.value.shift());
-}
+};
 </script>
 
-<style scoped>
+<style>
+/*import bg_homeview from '@/assets/DnD-BG.jpg'; */
+.bg-image {
+  min-height: 100vh;
+  background-image: url('@/assets/DnD-BG2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .layout {
   display: flex;
   justify-content: center;
@@ -70,34 +78,21 @@ function rotateRight() {
   margin-top: 130px;
 }
 
-.card-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #ffffff;
-}
-
 .card {
   width: 500px;
-  margin: 20px;
   border: 1px solid #ccc;
   padding: 16px;
+  background: rgba(255,255,255,0.85);
 }
 
 .card-center {
   width: 600px;
-  margin: 20px;
   border: 1px solid #ccc;
   padding: 16px;
+  background: rgba(255,255,255,0.9);
 }
 
 .card-image {
   width: 100%;
-  height: auto;
-}
-
-.button-group {
-  display: flex;
-  gap: 10px;
 }
 </style>
