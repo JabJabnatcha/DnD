@@ -40,10 +40,9 @@ a.router-link-exact-active {
   text-decoration: underline;
 }
 
-
 .nav-btn {
-  background-color: #000000;
-  color: white;
+  background-color: #efefefea;
+  color: rgb(0, 0, 0);
   text-decoration: none;
   padding: 0.8rem 1.2rem;
   border-radius: 8px;

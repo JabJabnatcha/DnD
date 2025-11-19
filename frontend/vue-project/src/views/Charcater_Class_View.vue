@@ -1,98 +1,114 @@
 <template>
-  
+  <v-app class="bg-image">
+    <topbar />
+
     <div class="layout">
+      <transition :name="transitionName" mode="out-in">
+        <CardComponent :key="cards[0].title" :card="cards[0]" card-class="card" />
+      </transition>
 
-      <div class="card">
-        <img :src="cards[0].image" alt="Card 1" class="card-image" />
-        <h2>{{ cards[0].title }}</h2>
-        <p>{{ cards[0].subtitle }}</p>
-      </div>
+      <v-btn icon @click="rotateLeft" class="nav-button">
+        <v-icon size="36">mdi-arrow-left-circle-outline</v-icon>
+      </v-btn>
 
-    <button @click="rotateLeft" class="nav-button">⬅️</button>
+      <transition :name="transitionName" mode="out-in">
+        <CardComponent :key="cards[1].title" :card="cards[1]" card-class="card-center" />
+      </transition>
 
-      <div class="card-center">
-        <img :src="cards[1].image" alt="Card 2" class="card-image" />
-        <h2>{{ cards[1].title }}</h2>
-        <p>{{ cards[1].subtitle }}</p>
-      </div>
+      <v-btn icon @click="rotateRight" class="nav-button">
+        <v-icon size="36">mdi-arrow-right-circle-outline</v-icon>
+      </v-btn>
 
-    <button @click="rotateRight" class="nav-button">➡️</button>
+      <transition :name="transitionName" mode="out-in">
+        <CardComponent :key="cards[2].title" :card="cards[2]" card-class="card" />
+      </transition>
+    </div>
 
-      <div class="card">
-        <img :src="cards[2].image" alt="Card 3" class="card-image" />
-        <h2>{{ cards[2].title }}</h2>
-        <p>{{ cards[2].subtitle }}</p>
-      </div>
-  </div>
+  </v-app>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { VApp, VBtn, VIcon } from 'vuetify/components';
 import Topbar from '@/components/Topbar.vue';
+import CardComponent from '@/components/CardComponent.vue';
 
 const cards = ref([
-  {
-    title: 'Card 1',
-    subtitle: 'Subtitle 1',
-    image: new URL('@/assets/cm.jpg', import.meta.url).href
-  },
-  {
-    title: 'Card 2',
-    subtitle: 'Subtitle 2',
-    image: new URL('@/assets/drown.jpg', import.meta.url).href
-  },
-  {
-    title: 'Card 3',
-    subtitle: 'Subtitle 3',
-    image: new URL('@/assets/lina.jpg', import.meta.url).href
-  }
+  { title: 'Card 1', subtitle: 'Subtitle 1', image: new URL('@/assets/rubic.jpg', import.meta.url).href },
+  { title: 'Card 2', subtitle: 'Subtitle 2', image: new URL('@/assets/grime.jpg', import.meta.url).href },
+  { title: 'Card 3', subtitle: 'Subtitle 3', image: new URL('@/assets/tinker.jpg', import.meta.url).href }
 ]);
 
-function rotateLeft() {
-  cards.value.unshift(cards.value.pop());
-}
+// ใช้เก็บ direction ของ animation
+const transitionName = ref('slide-right');
 
-function rotateRight() {
+const rotateLeft = () => {
+  cards.value.unshift(cards.value.pop());
+  transitionName.value = 'slide-left';
+};
+const rotateRight = () => {
   cards.value.push(cards.value.shift());
-}
+  transitionName.value = 'slide-right';
+};
 </script>
 
-<style scoped>
+<style>
 .layout {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  margin-top: 40px;
+  margin-top: 130px;
 }
 
-.card-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #ffffff;
+.nav-button {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.card {
-  width: 500px;
-  margin: 20px;
-  border: 1px solid #ccc;
-  padding: 16px;
-}
-.card-center {
-  width: 1100px;
-  margin: 20px;
-  border: 1px solid #ccc;
-  padding: 16px;
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.9);
 }
 
-.card-image {
-  width: 100%;
-  height: auto;
+.bg-image {
+  min-height: 100vh;
+  background-image: url('@/assets/DnD-BG2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.button-group {
-  display: flex;
-  gap: 10px;
+/* Slide Right */
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 0.5s ease;
+}
+
+.slide-right-enter-from {
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+/* Slide Left */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.5s ease;
+}
+
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
 }
 </style>

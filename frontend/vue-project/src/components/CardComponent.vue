@@ -1,47 +1,45 @@
 <template>
-  <v-card class="mx-auto pa-4" :elevation="props.cardClass === 'card-center' ? 10 : 5">
-    <v-img 
-      :src="card.image" 
-      class="align-end" 
-      cover
-      :aspect-ratio="16/9"
-    />
-    
-    <v-card-title class="text-h5 font-weight-bold pt-4">{{ card.title }}</v-card-title>
-    
-    <v-card-text class="text-subtitle-1">{{ card.subtitle }}</v-card-text>
-    
-    </v-card>
+  <div :class="cardClass">
+    <img :src="card.image" class="card-image" />
+    <h2>{{ card.title }}</h2>
+    <p>{{ card.subtitle }}</p>
+  </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
 
 const props = defineProps({
-  // กำหนด props ชื่อ 'card' เพื่อรับข้อมูล Card จาก Parent Component
   card: {
     type: Object,
     required: true,
-    default: () => ({ 
-        title: 'Default Title', 
-        subtitle: 'Default Subtitle', 
-        image: '' 
-    })
   },
-  // รับ prop เพื่อแยกแยะว่า Card ใบนี้คือ Center หรือ Side (เพื่อปรับสไตล์)
   cardClass: {
     type: String,
-    default: 'card-side' // 'card-center' หรือ 'card-side'
+    default: 'card', // ใช้ 'card-center' สำหรับ card กลาง
   }
 });
 </script>
 
 <style scoped>
-/* สไตล์เฉพาะสำหรับ Card Component */
-.v-card {
-  /* ลบ border และ background ที่กำหนดไว้ในไฟล์หลักออกไป (เพราะจะถูกกำหนดด้วย props ที่ส่งมา) */
-  /* กำหนดความกว้างเป็น 100% เพื่อให้ยืดเต็ม v-col ที่ครอบอยู่ */
-  width: 100%; 
-  text-align: center;
+.card {
+  width: 400px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 16px;
+  background: rgba(203, 202, 202, 0.85);
+}
+
+.card-center {
+  width: 450px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 16px;
+  background: rgba(255,255,255,0.9);
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
 }
 </style>
