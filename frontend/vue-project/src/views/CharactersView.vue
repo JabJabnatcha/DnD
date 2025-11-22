@@ -4,6 +4,12 @@
 
     <div class="layoutCharacters">
       <h1>Characters View</h1>
+      <!-- ปุ่ม Create -->
+      <div class="create-btn-wrapper">
+        <v-btn color="success" @click="openCreate">Create Character</v-btn>
+      </div>
+
+      <CreateCharacter ref="createComponent" @created="getCharacters" />
 
       <!-- Table -->
       <v-data-table :headers="headers" :items="characters" item-value="id" class="my-table">
@@ -27,9 +33,13 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import { VApp, VBtn,VDataTable,VAlert } from 'vuetify/components';
+import { VApp, VBtn, VDataTable, VAlert } from 'vuetify/components';
 
 import Topbar from '@/components/Topbar.vue';
+
+import CreateCharacter from '@/components/CharacterCreate.vue';
+
+//C:\Users\Laptop-JAB\Desktop\Learn\DnD\frontend\vue-project\src\components\CharacterCreate.vue
 
 const characters = ref([]);
 const loading = ref(false);
@@ -92,6 +102,14 @@ const addCharacter = async (newChar) => {
   }
 };
 
+const createComponent = ref(null);
+
+const openCreate = () => {
+  if (createComponent.value) {
+    createComponent.value.openDialog();
+  }
+};
+
 onMounted(() => {
   getCharacters();
 });
@@ -145,5 +163,14 @@ onMounted(() => {
   padding: 8px;
   border-bottom: 1px solid #606060;
   text-align: left;
+}
+
+.create-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  /* ปุ่มชิดซ้าย */
+  margin-bottom: 10px;
+  /* เว้นช่องเล็กน้อยก่อน table */
 }
 </style>
