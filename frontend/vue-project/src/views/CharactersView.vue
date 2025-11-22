@@ -6,38 +6,19 @@
       <h1>Characters View</h1>
 
       <!-- Table -->
-      <v-table class="my-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Player</th>
-            <th>Level</th>
-            <th>Race</th>
-            <th>Sub Race</th>
-            <th>Class</th>
-            <th>Sub Class</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="char in characters" :key="char.id">
-            <td>{{ char.name }}</td>
-            <td>{{ char.player }}</td>
-            <td>{{ char.level }}</td>
-            <td>{{ char.race }}</td>
-            <td>{{ char.subRace }}</td>
-            <td>{{ char.class }}</td>
-            <td>{{ char.subClass }}</td>
-            <td>
-              <v-btn small color="primary" @click="editCharacter(char)">Edit</v-btn>
-              <v-btn small color="error" @click="deleteCharacter(char.id)">Delete</v-btn>
-            </td>
-          </tr>
-          <tr v-if="characters.length === 0 && !loading">
-            <td :colspan="8" class="text-center">No characters found</td>
-          </tr>
-        </tbody>
-      </v-table>
+      <v-data-table :headers="headers" :items="characters" item-value="id" class="my-table">
+        <template #item.actions="{ item }">
+          <v-btn small color="primary" @click="editCharacter(item)">Edit</v-btn>
+          <v-btn small color="error" @click="deleteCharacter(item.id)">Delete</v-btn>
+        </template>
+
+        <template #no-data>
+          <v-alert type="info" border="left">
+            No characters found
+          </v-alert>
+        </template>
+      </v-data-table>
+
 
     </div>
   </v-app>
@@ -46,7 +27,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import { VApp, VBtn } from 'vuetify/components';
+import { VApp, VBtn,VDataTable,VAlert } from 'vuetify/components';
 
 import Topbar from '@/components/Topbar.vue';
 
@@ -54,11 +35,24 @@ const characters = ref([]);
 const loading = ref(false);
 const error = ref(null);
 
+const headers = [
+  { title: 'Name', value: 'name' },
+  { title: 'Player', value: 'player' }, // ถ้าไม่มีใน data จะว่าง
+  { title: 'Level', value: 'level' },
+  { title: 'Race', value: 'race' },
+  { title: 'Sub Race', value: 'subRace' }, // ถ้าไม่มีใน data จะว่าง
+  { title: 'Class', value: 'class' },
+  { title: 'Sub Class', value: 'subClass' }, // ถ้าไม่มีใน data จะว่าง
+  { title: 'Actions', value: 'actions' },
+];
+
 // ดึงข้อมูล
+//http://localhost:5199/api/Character
 const getCharacters = async () => {
   loading.value = true;
   try {
-    const res = await axios.get('https://localhost:7139/api/Character'); // เปลี่ยน URL เป็น backend ของคุณ
+    const res = await axios.get('http://localhost:5199/api/Character');
+    console.log(res.data);
     characters.value = res.data;
   } catch (err) {
     error.value = err.message;
@@ -71,7 +65,7 @@ const getCharacters = async () => {
 // ลบ character (Soft delete)
 const deleteCharacter = async (id) => {
   try {
-    await axios.delete(`https://localhost:7139/api/Character/${id}`);
+    await axios.delete(`https://localhost:5199/api/Character/${id}`);
     getCharacters(); // รีเฟรช table
   } catch (err) {
     console.error(err);
@@ -81,7 +75,7 @@ const deleteCharacter = async (id) => {
 // แก้ไข character (สมมติแก้ชื่อ)
 const editCharacter = async (char) => {
   try {
-    await axios.put(`https://localhost:7139/api/Character/${char.id}`, char);
+    await axios.put(`https://localhost:5199/api/Character/${char.id}`, char);
     getCharacters();
   } catch (err) {
     console.error(err);
@@ -91,7 +85,7 @@ const editCharacter = async (char) => {
 // เพิ่ม character
 const addCharacter = async (newChar) => {
   try {
-    await axios.post('https://localhost:7139/api/Character', newChar);
+    await axios.post('https://localhost:5199/api/Character', newChar);
     getCharacters();
   } catch (err) {
     console.error(err);
