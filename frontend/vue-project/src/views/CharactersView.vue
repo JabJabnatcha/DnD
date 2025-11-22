@@ -14,7 +14,7 @@
       <!-- Table -->
       <v-data-table :headers="headers" :items="characters" item-value="id" class="my-table">
         <template #item.actions="{ item }">
-          <v-btn small color="primary" @click="editCharacter(item)">Edit</v-btn>
+          <v-btn small color="primary" @click="openEdit(item)">Edit</v-btn>
           <v-btn small color="error" @click="deleteCharacter(item.id)">Delete</v-btn>
         </template>
 
@@ -38,6 +38,7 @@ import { VApp, VBtn, VDataTable, VAlert } from 'vuetify/components';
 import Topbar from '@/components/Topbar.vue';
 
 import CreateCharacter from '@/components/CharacterCreate.vue';
+import CharacterEdit from '@/components/CharacterEdit.vue';
 
 //C:\Users\Laptop-JAB\Desktop\Learn\DnD\frontend\vue-project\src\components\CharacterCreate.vue
 
@@ -53,7 +54,9 @@ const headers = [
   { title: 'Sub Race', value: 'subRace' }, // ถ้าไม่มีใน data จะว่าง
   { title: 'Class', value: 'class' },
   { title: 'Sub Class', value: 'subClass' }, // ถ้าไม่มีใน data จะว่าง
-  { title: 'Actions', value: 'actions' },
+  { title: '', value: 'actions' },
+  { title: 'See More', value: '' },
+  
 ];
 
 // ดึงข้อมูล
@@ -107,6 +110,14 @@ const createComponent = ref(null);
 const openCreate = () => {
   if (createComponent.value) {
     createComponent.value.openDialog();
+  }
+};
+
+const editComponent = ref(null);
+
+const openEdit = (char) => {
+  if (editComponent.value) {
+    editComponent.value.openDialog(char);
   }
 };
 
