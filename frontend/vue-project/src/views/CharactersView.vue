@@ -6,7 +6,7 @@
       <h1>Characters View</h1>
 
       <!-- Table -->
-      <v-simple-table class="my-table">
+      <v-table class="my-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -16,7 +16,7 @@
             <th>Sub Race</th>
             <th>Class</th>
             <th>Sub Class</th>
-
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -28,27 +28,79 @@
             <td>{{ char.subRace }}</td>
             <td>{{ char.class }}</td>
             <td>{{ char.subClass }}</td>
-
+            <td>
+              <v-btn small color="primary" @click="editCharacter(char)">Edit</v-btn>
+              <v-btn small color="error" @click="deleteCharacter(char.id)">Delete</v-btn>
+            </td>
           </tr>
-          <tr v-if="characters.length === 0">
-            <td :colspan="7" class="text-center">No characters found</td>
+          <tr v-if="characters.length === 0 && !loading">
+            <td :colspan="8" class="text-center">No characters found</td>
           </tr>
         </tbody>
-      </v-simple-table>
+      </v-table>
+
     </div>
   </v-app>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import { VApp, VBtn } from 'vuetify/components';
+
 import Topbar from '@/components/Topbar.vue';
 
-const characters = ref([
-  { id: 1, name: 'Arthas', player: 'John', level: 5, race: 'Human', subRace: 'None', class: 'Paladin', subClass: 'Vengeance' },
-  { id: 2, name: 'Illidan', player: 'Mike', level: 7, race: 'Night Elf', subRace: 'Demon Hunter', class: 'Rogue', subClass: 'Assassin' },
-  { id: 3, name: 'Legolus', player: 'Jame', level: 5, race: 'Human', subRace: 'None', class: 'Paladin', subClass: 'Vengeance' },
-  { id: 4, name: 'Aragon', player: 'sara', level: 7, race: 'Night Elf', subRace: 'Demon Hunter', class: 'Rogue', subClass: 'Assassin' }
-]);
+const characters = ref([]);
+const loading = ref(false);
+const error = ref(null);
+
+// ดึงข้อมูล
+const getCharacters = async () => {
+  loading.value = true;
+  try {
+    const res = await axios.get('https://localhost:7139/api/Character'); // เปลี่ยน URL เป็น backend ของคุณ
+    characters.value = res.data;
+  } catch (err) {
+    error.value = err.message;
+    console.error(err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// ลบ character (Soft delete)
+const deleteCharacter = async (id) => {
+  try {
+    await axios.delete(`https://localhost:7139/api/Character/${id}`);
+    getCharacters(); // รีเฟรช table
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// แก้ไข character (สมมติแก้ชื่อ)
+const editCharacter = async (char) => {
+  try {
+    await axios.put(`https://localhost:7139/api/Character/${char.id}`, char);
+    getCharacters();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// เพิ่ม character
+const addCharacter = async (newChar) => {
+  try {
+    await axios.post('https://localhost:7139/api/Character', newChar);
+    getCharacters();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+onMounted(() => {
+  getCharacters();
+});
 </script>
 
 <style>
@@ -65,8 +117,10 @@ const characters = ref([
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* ถ้าอยากให้อยู่ top ให้ใช้ flex-start */
-  padding-top: 130px; /* เหมือนเดิมสำหรับ topbar */
+  justify-content: flex-start;
+  /* ถ้าอยากให้อยู่ top ให้ใช้ flex-start */
+  padding-top: 130px;
+  /* เหมือนเดิมสำหรับ topbar */
   box-sizing: border-box;
 }
 
@@ -87,6 +141,7 @@ const characters = ref([
   overflow: hidden;
   box-sizing: border-box;
 }
+
 .my-table thead {
   background-color: #bdbdbd;
 }
