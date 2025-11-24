@@ -11,12 +11,14 @@
 
       <CreateCharacter ref="createComponent" @created="getCharacters" />
       <CharacterEdit ref="editComponent" @updated="getCharacters" />
+      <CharacterDelete ref="deleteComponent" @deleted="getCharacters" />
+
 
       <!-- Table -->
       <v-data-table :headers="headers" :items="characters" item-value="characterId" class="my-table">
         <template #item.actions="{ item }">
           <v-btn small color="primary" @click="openEdit(item)">Edit</v-btn>
-          <v-btn small color="error" @click="deleteCharacter(item.Id)">Delete</v-btn>
+          <v-btn small color="error" @click="openDelete(item)">Delete</v-btn>
         </template>
 
         <template #no-data>
@@ -40,6 +42,7 @@ import Topbar from '@/components/Topbar.vue';
 
 import CreateCharacter from '@/components/CharacterCreate.vue';
 import CharacterEdit from '@/components/CharacterEdit.vue';
+import CharacterDelete from '@/components/CharacterDelete.vue';
 
 //C:\Users\Laptop-JAB\Desktop\Learn\DnD\frontend\vue-project\src\components\CharacterCreate.vue
 
@@ -77,34 +80,14 @@ const getCharacters = async () => {
 };
 
 // ลบ character (Soft delete)
-const deleteCharacter = async (id) => {
-  try {
-    await axios.delete(`https://localhost:5199/api/Character/${id}`);
-    getCharacters(); // รีเฟรช table
-  } catch (err) {
-    console.error(err);
+const deleteComponent = ref(null);
+
+const openDelete = (char) => {
+  if (deleteComponent.value) {
+    deleteComponent.value.openDialog(char.id, char.name);
   }
 };
 
-// แก้ไข character
-const sendEditCharacter = async (char) => {
-  try {
-    await axios.put(`https://localhost:5199/api/Character/${editCharacter.value.id}`,editCharacter.value);
-    getCharacters();
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-// เพิ่ม character
-const addCharacter = async (newChar) => {
-  try {
-    await axios.post('https://localhost:5199/api/Character', newChar);
-    getCharacters();
-  } catch (err) {
-    console.error(err);
-  }
-};
 
 const createComponent = ref(null);
 
