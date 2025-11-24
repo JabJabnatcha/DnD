@@ -5,24 +5,75 @@
       <v-card-text>
         <v-form @submit.prevent="updateCharacter">
 
-          <!-- Basic Info -->
-          <v-text-field label="Name" v-model="editCharacter.name" dense outlined required />
-          <v-text-field label="Race" v-model="editCharacter.race" dense outlined />
-          <v-text-field label="Class" v-model="editCharacter.class" dense outlined />
-          
-          <!-- Progression -->
-          <v-text-field label="Level" type="number" v-model="editCharacter.level" dense outlined />
-          <v-text-field label="Experience" type="number" v-model="editCharacter.experience" dense outlined />
+          <!-- BASIC INFO -->
+          <div class="row-field">
+            <v-checkbox v-model="editTable.name" hide-details />
+            <v-text-field label="Name" v-model="editCharacter.name" :disabled="!editTable.name" dense outlined
+              required />
+          </div>
 
-          <!-- Ability Scores -->
-          <v-text-field label="Strength" type="number" v-model="editCharacter.strength" dense outlined />
-          <v-text-field label="Dexterity" type="number" v-model="editCharacter.dexterity" dense outlined />
-          <v-text-field label="Constitution" type="number" v-model="editCharacter.constitution" dense outlined />
-          <v-text-field label="Intelligence" type="number" v-model="editCharacter.intelligence" dense outlined />
-          <v-text-field label="Wisdom" type="number" v-model="editCharacter.wisdom" dense outlined />
-          <v-text-field label="Charisma" type="number" v-model="editCharacter.charisma" dense outlined />
+          <div class="row-field">
+            <v-checkbox v-model="editTable.race" hide-details />
+            <v-text-field label="Race" v-model="editCharacter.race" :disabled="!editTable.race" dense outlined />
+          </div>
 
-          <!-- Actions -->
+          <div class="row-field">
+            <v-checkbox v-model="editTable.class" hide-details />
+            <v-text-field label="Class" v-model="editCharacter.class" :disabled="!editTable.class" dense outlined />
+          </div>
+
+          <!-- PROGRESSION -->
+          <div class="row-field">
+            <v-checkbox v-model="editTable.level" hide-details />
+            <v-text-field label="Level" type="number" v-model="editCharacter.level" :disabled="!editTable.level" dense
+              outlined />
+          </div>
+
+          <div class="row-field">
+            <v-checkbox v-model="editTable.experience" hide-details />
+            <v-text-field label="Experience" type="number" v-model="editCharacter.experience"
+              :disabled="!editTable.experience" dense outlined />
+          </div>
+
+          <!-- ABILITY SCORES -->
+          <div class="row-field">
+            <v-checkbox v-model="editTable.strength" hide-details />
+            <v-text-field label="Strength" type="number" v-model="editCharacter.strength"
+              :disabled="!editTable.strength" dense outlined />
+          </div>
+
+          <div class="row-field">
+            <v-checkbox v-model="editTable.dexterity" hide-details />
+            <v-text-field label="Dexterity" type="number" v-model="editCharacter.dexterity"
+              :disabled="!editTable.dexterity" dense outlined />
+          </div>
+
+          <div class="row-field">
+            <v-checkbox v-model="editTable.constitution" hide-details />
+            <v-text-field label="Constitution" type="number" v-model="editCharacter.constitution"
+              :disabled="!editTable.constitution" dense outlined />
+          </div>
+
+          <div class="row-field">
+            <v-checkbox v-model="editTable.intelligence" hide-details />
+            <v-text-field label="Intelligence" type="number" v-model="editCharacter.intelligence"
+              :disabled="!editTable.intelligence" dense outlined />
+          </div>
+
+          <div class="row-field">
+            <v-checkbox v-model="editTable.wisdom" hide-details />
+            <v-text-field label="Wisdom" type="number" v-model="editCharacter.wisdom" :disabled="!editTable.wisdom"
+              dense outlined />
+          </div>
+
+          <div class="row-field">
+            <v-checkbox v-model="editTable.charisma" hide-details />
+            <v-text-field label="Charisma" type="number" v-model="editCharacter.charisma"
+              :disabled="!editTable.charisma" dense outlined />
+          </div>
+
+
+          <!-- ACTIONS -->
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="dialog = false">Cancel</v-btn>
@@ -38,12 +89,13 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import {
+  VDialog, VCard, VCardTitle, VCardText, VCardActions,
+  VTextField, VBtn, VSpacer, VForm, VCheckbox
+} from 'vuetify/components';
 
 const dialog = ref(false);
 
-/* ------------------------------------
-   Form Model เหมือน Create แต่เพิ่ม id
---------------------------------------*/
 const editCharacter = ref({
   characterId: null,
   name: '',
@@ -69,13 +121,29 @@ const editCharacter = ref({
   isDeleted: false
 });
 
-/* -----------------------
-   ส่ง event กลับไป parent
-------------------------*/
+const editTable = ref({
+  name: false,
+  race: false,
+  class: false,
+  level: false,
+  experience: false,
+  strength: false,
+  dexterity: false,
+  constitution: false,
+  intelligence: false,
+  wisdom: false,
+  charisma: false
+});
+
 const emit = defineEmits(['updated']);
 
 const openDialog = (character) => {
   Object.assign(editCharacter.value, character);
+
+  Object.keys(editTable.value).forEach(key => {
+    editTable.value[key] = false;
+  });
+
   dialog.value = true;
 };
 
@@ -87,7 +155,6 @@ const updateCharacter = async () => {
     );
 
     dialog.value = false;
-
     emit('updated');
 
   } catch (err) {

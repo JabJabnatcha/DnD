@@ -10,12 +10,13 @@
       </div>
 
       <CreateCharacter ref="createComponent" @created="getCharacters" />
+      <CharacterEdit ref="editComponent" @updated="getCharacters" />
 
       <!-- Table -->
-      <v-data-table :headers="headers" :items="characters" item-value="id" class="my-table">
+      <v-data-table :headers="headers" :items="characters" item-value="characterId" class="my-table">
         <template #item.actions="{ item }">
-          <v-btn small color="primary" @click="openEdit(item)">Edit</v-btn>
-          <v-btn small color="error" @click="deleteCharacter(item.id)">Delete</v-btn>
+          <v-btn small color="primary" @click="openEdit(item.raw)">Edit</v-btn>
+          <v-btn small color="error" @click="deleteCharacter(item.raw.characterId)">Delete</v-btn>
         </template>
 
         <template #no-data>
@@ -85,10 +86,10 @@ const deleteCharacter = async (id) => {
   }
 };
 
-// แก้ไข character (สมมติแก้ชื่อ)
-const editCharacter = async (char) => {
+// แก้ไข character
+const sendEditCharacter = async (char) => {
   try {
-    await axios.put(`https://localhost:5199/api/Character/${char.id}`, char);
+    await axios.put(`https://localhost:5199/api/Character/${editCharacter.value.id}`,editCharacter.value);
     getCharacters();
   } catch (err) {
     console.error(err);
