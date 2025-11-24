@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GameDnD.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9986cd311c55ead25e0989d9dc86643a158b2cb0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec7c47a5656c9c9b4a58aca0d38fe6b3e3dd96c0")]
 [assembly: System.Reflection.AssemblyProductAttribute("GameDnD.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GameDnD.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

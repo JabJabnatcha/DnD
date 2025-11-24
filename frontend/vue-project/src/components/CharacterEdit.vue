@@ -40,7 +40,7 @@ import {
 const dialog = ref(false);
 
 const editCharacter = ref({
-  characterId: null,
+  id: null,
   name: '',
   race: '',
   class: '',
@@ -81,19 +81,19 @@ const editTable = ref({
 const emit = defineEmits(['updated']);
 
 const openDialog = (character) => {
-  Object.assign(editCharacter.value, character);
-
-  Object.keys(editTable.value).forEach(key => {
-    editTable.value[key] = false;
-  });
-
+  editCharacter.value = {
+    ...editCharacter.value,
+    ...character,
+    Id: character.Id ?? character.characterId  // fallback เผื่อ parent ส่ง characterId
+  };
   dialog.value = true;
 };
+
 
 const updateCharacter = async () => {
   try {
     await axios.put(
-      `http://localhost:5199/api/Character/${editCharacter.value.characterId}`,
+      `http://localhost:5199/api/Character/${editCharacter.value.id}`,
       editCharacter.value
     );
 

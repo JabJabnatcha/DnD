@@ -15,8 +15,8 @@
       <!-- Table -->
       <v-data-table :headers="headers" :items="characters" item-value="characterId" class="my-table">
         <template #item.actions="{ item }">
-          <v-btn small color="primary" @click="openEdit(item.raw)">Edit</v-btn>
-          <v-btn small color="error" @click="deleteCharacter(item.raw.characterId)">Delete</v-btn>
+          <v-btn small color="primary" @click="openEdit(item)">Edit</v-btn>
+          <v-btn small color="error" @click="deleteCharacter(item.Id)">Delete</v-btn>
         </template>
 
         <template #no-data>
@@ -117,6 +117,7 @@ const openCreate = () => {
 const editComponent = ref(null);
 
 const openEdit = (char) => {
+  console.log("Editing character:", char); // debug
   if (editComponent.value) {
     editComponent.value.openDialog(char);
   }
